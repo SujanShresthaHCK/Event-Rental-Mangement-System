@@ -22,3 +22,11 @@
   background: black;
   width: 1800px;
 }
+
+.bookline {
+  margin: 20px 0px;
+  height: 12vh;
+  background: #f9e4bc;
+  width: 100vw;
+  z-index: 1;
+}

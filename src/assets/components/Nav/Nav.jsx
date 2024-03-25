@@ -11,6 +11,20 @@ const Nav = () => {
         </Link>
         <h1>Hamro Banquet</h1>
         <div className="line"></div>
+        <div className="bookline"></div>
+        <h1
+          style={{
+            fontWeight: "600px",
+            fontSize: "40px",
+            textAlign: "center",
+            color: "#846330",
+            zIndex: "2",
+            marginTop: "-11vh",
+            marginBottom: "50px",
+          }}
+        >
+          Book a Venue
+        </h1>
       </nav>
     </section>
   );
