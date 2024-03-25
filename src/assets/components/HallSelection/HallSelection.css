@@ -24,10 +24,25 @@
   width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  height: 500px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
 .hall {
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+.hall h1 {
+  font-weight: 500;
+}
+
+.hall p {
+  color: gray;
+}
+.hallimages:hover {
+  transform: scale(1.05);
 }
