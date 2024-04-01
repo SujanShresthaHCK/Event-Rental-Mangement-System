@@ -1,0 +1,97 @@
+.check-container {
+  margin-top: 50px;
+  display: flex;
+}
+.left-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.check-content {
+  margin-top: 70px;
+  width: 60%;
+}
+
+.check-content h1 {
+  color: #846330;
+  font-size: 30px;
+  padding-bottom: 20px;
+}
+.check-content span {
+  font-size: 18px;
+}
+.check-rightcontainer {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.check-button {
+  background: black;
+  color: white;
+  margin-top: 25px;
+  padding: 10px 40px;
+  border-radius: 3px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  margin-left: 25px;
+  border: none;
+}
+
+.check-button:hover {
+  transform: scale(1.01);
+  color: white;
+  background: #846330;
+}
+
+.event-comboBox {
+  color: gray;
+  margin: 5px 0px;
+  width: 310px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 15px;
+  color: grey;
+  background: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.inputfield {
+  margin: 5px 0px;
+  width: 305px;
+  height: 40px;
+  border-radius: 5px;
+  height: 25px;
+  background: white;
+  border: 1px solid black;
+}
+
+.calendar-icondiv {
+  display: flex;
+}
+
+.small-datepicker {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.calendar-icon {
+  padding-top: 2px;
+  padding-left: 5px;
+}
+
+.custom-datepicker {
+  font-family: "Poppins", sans-serif;
+  color: gray;
+  margin: 5px 0px;
+  width: 305px;
+  border-radius: 5px;
+  height: 40px;
+
+  height: 25px;
+  background: white;
+  border: 1px solid black;
+}

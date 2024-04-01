@@ -61,13 +61,13 @@ const Hero = () => {
 
         {/* right-side */}
         <div className="hero-right">
-          <div className="hero-rightcontainer">
+          {/* <div className="hero-rightcontainer">
             <form action="">
               <h1
                 style={{
                   color: "#846330",
                   fontSize: "24px",
-                  fontWeight: "400",
+                  fontWeight: "600",
                   padding: "10px 0px",
                 }}
               >
@@ -162,7 +162,7 @@ const Hero = () => {
                 </Link>
               </div>
             </form>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

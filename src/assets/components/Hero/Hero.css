@@ -37,9 +37,9 @@
   font-weight: 800;
   font-size: 3rem;
 }
-
+/* 
 .check-button {
-  /* margin-left: 2rem; */
+  
   background: black;
   color: white;
   margin-top: 25px;
@@ -56,14 +56,14 @@
   transform: scale(1.05);
   color: white;
   background: #846330;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+  
 }
 
 .hero-right {
   width: 380px;
   height: 470px;
   margin-left: 400px;
-  /* background: #faf9f6; */
+  
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(1px);
   padding: 10px;
@@ -100,7 +100,7 @@
   border-radius: 5px;
   height: 25px;
   background: #faf9f6;
-  /* border: 1px solid gray; */
+  
   border: none;
 }
 
@@ -125,8 +125,8 @@
   width: 305px;
   border-radius: 5px;
   height: 40px;
-  /* border: 1px solid gray; */
+  
   height: 25px;
   background: #faf9f6;
   border: none;
-}
+} */
