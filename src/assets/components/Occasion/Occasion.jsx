@@ -24,14 +24,14 @@ const Occasion = () => {
             excellence tailored to your tastes in a stunning event setting,
             accompanied by hassle-free, effortless parking.
           </p>
-          <Link to="/bookvenue">
+          {/* <Link to="/checkavailability">
             <button className="book-btn">
               <FaCalendarAlt
                 style={{ fontSize: "20px", paddingRight: "8px" }}
               />{" "}
               Online Booking
             </button>
-          </Link>
+          </Link> */}
 
           <h3>FOLLOW US</h3>
           <span>
@@ -50,14 +50,14 @@ const Occasion = () => {
               }}
             />{" "}
           </span>
-          <div className="bottom">
+          {/* <div className="bottom">
             <h1
               style={{ fontWeight: "500", fontSize: "25px", color: "#846330" }}
             >
               Hamro Banquet
             </h1>
             <img src="/images/logo.png" alt="" />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

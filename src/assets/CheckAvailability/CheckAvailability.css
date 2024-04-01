@@ -42,9 +42,10 @@
 }
 
 .check-button:hover {
-  transform: scale(1.01);
+  background-color: #846330;
+  border-color: #846330;
   color: white;
-  background: #846330;
+  transform: translateY(-2px);
 }
 
 .event-comboBox {

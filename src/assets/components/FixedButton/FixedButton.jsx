@@ -5,7 +5,7 @@ const FixedButton = () => {
   return (
     <div className="fixed-button">
       <div className="pricearea">
-        <h1>Rs. 1000000</h1>
+        <h1>Rs. XXXXXX</h1>
       </div>
     </div>
   );
