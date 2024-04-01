@@ -84,7 +84,7 @@ const Form = ({ toggle }) => {
               }}
             >
               <option value="Wedding">Wedding</option>
-              <option value="Aniversary">Aniversary</option>
+              <option value="Aniversary">Anniversary</option>
               <option value="Engagement">Engagement</option>
               <option value="Bartamanda">Bartamanda</option>
               <option value="Reception">Reception</option>

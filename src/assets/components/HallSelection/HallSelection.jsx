@@ -2,10 +2,10 @@ import React from "react";
 import "./HallSelection.css";
 import { FiCircle } from "react-icons/fi";
 
-const HallSelection = ({ onBack, onImageClick }) => {
+const HallSelection = ({ onImageClick }) => {
   return (
     <section className="hall-wrapper">
-      <button onClick={onBack}>⬅ Back</button>
+      {/* <button onClick={onBack}>⬅ Back</button> */}
       <div className="hall-container">
         <h1
           style={{ color: "#846330", fontWeight: "400", marginBottom: "80px" }}
