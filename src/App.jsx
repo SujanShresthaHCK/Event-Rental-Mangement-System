@@ -5,15 +5,6 @@ import Home from "./assets/pages/Home";
 import BookVenue from "./assets/pages/BookVenue";
 
 function App() {
-  const [backendData, setBackendData] = useState([]);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-      });
-  }, []);
   return (
     <>
       <BrowserRouter>

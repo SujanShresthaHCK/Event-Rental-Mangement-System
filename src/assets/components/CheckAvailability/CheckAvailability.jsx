@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FiMapPin } from "react-icons/fi";
-import { Typewriter } from "react-simple-typewriter";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import "./CheckAvailability.css";
+import { useSnackbar } from "notistack";
+import axios from "axios";
 
 const CheckAvailability = () => {
   const [eventState, setEventState] = useState("Single-Day");
@@ -14,9 +14,48 @@ const CheckAvailability = () => {
   const [endDate, setEndDate] = useState(null);
   const [eventType, setEventType] = useState("Wedding"); // New state for event type
 
+  const [estimatedGuests, setEstimatedGuests] = useState("");
+  const [days, setDays] = useState("Single-Day");
+  const [dayShift, setShifts] = useState("Morning");
+  const [bookDate, setBookDate] = useState("");
+  const [startDatedb, setStartDatedb] = useState("");
+  const [endDatedb, setEndDatedb] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleSaveBook = () => {
+    const data = {
+      estimatedGuests,
+      eventType,
+      days,
+      dayShift,
+      bookDate,
+      startDate,
+      endDate,
+    };
+    setLoading(true);
+    axios
+      .post("http://localhost:9000/books", data)
+      .then(() => {
+        setLoading(false);
+        enqueueSnackbar("Book Created successfully", { variant: "success" });
+        navigate("/bookvenue"); // Redirect to /bookvenue page after successful booking
+      })
+      .catch((error) => {
+        setLoading(false);
+        enqueueSnackbar("Error", { variant: "error" });
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     setEventState("Single-Day");
+    setDays("Single-Day");
+    setShifts("Morning");
+    setEventType("Wedding");
   }, []);
+
   return (
     <section className="check-wrapper">
       <div className="check-container">
@@ -35,7 +74,7 @@ const CheckAvailability = () => {
           </div>
         </div>
         <div className="check-rightcontainer">
-          <form action="">
+          <form>
             <h1
               style={{
                 color: "#846330",
@@ -48,13 +87,19 @@ const CheckAvailability = () => {
             </h1>
             <div className="form-contents">
               <h2>Estimated Number of Guests</h2>
-              <input className="inputfield" type="text" />
+              <input
+                className="inputfield"
+                type="text"
+                value={estimatedGuests}
+                onChange={(e) => setEstimatedGuests(e.target.value)}
+              />
               <h2>Days</h2>
               <select
                 className="event-comboBox"
                 onChange={(e) => {
                   const selectedEvent = e.target.value;
                   setEventState(selectedEvent);
+                  setDays(selectedEvent);
                 }}
                 value={eventState}
               >
@@ -66,7 +111,11 @@ const CheckAvailability = () => {
                 <div>
                   <div>
                     <h2 style={{ fontSize: "15px" }}>Shift</h2>
-                    <select className="event-comboBox">
+                    <select
+                      className="event-comboBox"
+                      value={dayShift}
+                      onChange={(e) => setShifts(e.target.value)}
+                    >
                       <option value="Morning">Morning</option>
                       <option value="Evening">Evening</option>
                       <option value="Whole Day">Whole Day</option>
@@ -80,7 +129,11 @@ const CheckAvailability = () => {
                     <div className="datepicker-content">
                       <Datepicker
                         selected={singleDayDate}
-                        onChange={(date) => setSingleDayDate(date)}
+                        value={bookDate}
+                        onChange={(date) => {
+                          setSingleDayDate(date);
+                          setBookDate(date);
+                        }}
                         className="custom-datepicker"
                       />
                     </div>
@@ -94,7 +147,11 @@ const CheckAvailability = () => {
                     <h2 style={{ fontSize: "15px" }}>Start Date</h2>
                     <Datepicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      value={startDatedb}
+                      onChange={(date) => {
+                        setStartDate(date);
+                        setStartDatedb(date);
+                      }}
                       className="custom-datepicker small-datepicker"
                     />
                   </div>
@@ -102,7 +159,11 @@ const CheckAvailability = () => {
                     <h2 style={{ fontSize: "15px" }}>End Date</h2>
                     <Datepicker
                       selected={endDate}
-                      onChange={(date) => setEndDate(date)}
+                      value={endDatedb}
+                      onChange={(date) => {
+                        setEndDate(date);
+                        setEndDatedb(date);
+                      }}
                       className="custom-datepicker small-datepicker"
                     />
                   </div>
@@ -112,14 +173,14 @@ const CheckAvailability = () => {
                 <h2>Select Event Type</h2>
                 <select
                   className="event-comboBox"
+                  value={eventType}
                   onChange={(e) => {
                     const selectedEventType = e.target.value;
-                    setEventType(selectedEventType); // Update eventType state
+                    setEventType(selectedEventType);
                   }}
-                  value={eventType} // Set value to eventType
                 >
                   <option value="Wedding">Wedding</option>
-                  <option value="Aniversary">Anniversary</option>
+                  <option value="Anniversary">Anniversary</option>
                   <option value="Engagement">Engagement</option>
                   <option value="Bartamanda">Bartamanda</option>
                   <option value="Reception">Reception</option>
@@ -130,8 +191,9 @@ const CheckAvailability = () => {
                 </select>
               </div>
               <Link to="/bookvenue">
-                {" "}
-                <button className="check-button">CHECK AVAILABILITY</button>
+                <button className="check-button" onClick={handleSaveBook}>
+                  CHECK AVAILABILITY
+                </button>
               </Link>
             </div>
           </form>
