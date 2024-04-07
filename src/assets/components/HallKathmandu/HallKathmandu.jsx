@@ -1,44 +1,27 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { imageData } from "./mockData";
 import "./HallKathmandu.css";
 import { useSnackbar } from "notistack";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const HallKathmandu = ({ onSelectClick, onBack }) => {
-  const [hallName, setHallName] = useState("");
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const data = {
-      hallName: "Hall Kathmandu",
-    };
     setLoading(true);
     axios
-      .get("http://localhost:9000/books?_sort=createdAt&_order=desc")
-
-      .then(() => {
-        axios
-          .post(`http://localhost:9000/books/`, data)
-          .then((response) => {
-            setLoading(false);
-            const lastEnteredValues = response.data._id;
-            console.log(lastEnteredValues);
-            enqueueSnackbar(
-              "Last entered values retrieved: " +
-                JSON.stringify(lastEnteredValues),
-              { variant: "info" }
-            );
-          })
-          .catch((error) => {
-            setLoading(false);
-            enqueueSnackbar("Error fetching last entered values", {
-              variant: "error",
-            });
-            console.log(error);
-          });
+      .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
+      .then((response) => {
+        setLoading(false);
+        const latestData = response.data.data.pop(); // Get the last element of the data array
+        const latestId = latestData._id; // Get the _id of the latest data
+        console.log("Latest ID:", latestId);
+        enqueueSnackbar("Latest data retrieved. Check console.", {
+          variant: "info",
+        });
+        // Update the document with the new value
+        updateDocument(latestId);
       })
       .catch((error) => {
         setLoading(false);
@@ -47,13 +30,30 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
       });
   };
 
+  const updateDocument = (id) => {
+    const data = {
+      hallName: "Hall Kathmandu",
+    };
+    axios
+      .put(`http://localhost:9000/books/${id}`, data)
+      .then(() => {
+        enqueueSnackbar("Document updated successfully", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        enqueueSnackbar("Error updating document", { variant: "error" });
+        console.log(error);
+      });
+  };
+
   const scrollRef = useRef(null);
-  const [showBackButton, setShowBackButton] = useState(false); // State to control back button visibility
+  const [showBackButton, setShowBackButton] = useState(false);
 
   const handleScroll = () => {
     const container = scrollRef.current;
     if (container) {
-      setShowBackButton(container.scrollLeft > 0); // Show back button if scrolled to the right
+      setShowBackButton(container.scrollLeft > 0);
     }
   };
 
@@ -94,7 +94,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         className="selectbtn"
         onClick={() => {
           onSelectClick();
-          handleSaveBook();
+          handleSaveBook(); // Call handleSaveBook when Select Hall button is clicked
         }}
       >
         Select Hall
