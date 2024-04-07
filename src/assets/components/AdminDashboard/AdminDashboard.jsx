@@ -8,7 +8,6 @@ function AdminDashboard() {
     <main className='main-container'>
       <div className='main-title'>
         <h3>DASHBOARD</h3>
-        <h1>Hello world</h1>
       </div>
 
       <div className='main-cards'>

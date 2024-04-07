@@ -5,10 +5,11 @@
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
+    height: 200px;
   }
   
   .card button {
-    padding: 40px 40px;
+    padding: 50px 50px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -19,6 +20,10 @@
   
   .card button:hover {
     background-color: #0056b3;
+  }
+
+  h3{
+    font-size: 25px;
   }
 
   /*table*/

@@ -1,63 +1,49 @@
-import React from 'react'
-import './Hall.css'
+import React from 'react';
+import './Hall.css';
 
-const AdminHall = ({ onImageClick, onAddHallClick, onRemoveHallClick  }) => {
+const AdminHall = () => {
   return (
-    <section className="hall-wrapper1">
-      {/* <button onClick={onBack}>⬅ Back</button> */}
-      <div className="hall-container1">
-  <h1 className="hall-title">Halls</h1>
-  <div className="hall">
-    <div className="hallkathmandu1">
-      <img src="/images/HallKathmandu.jpg" alt="" className="hallimages1" onClick={onImageClick} />
-      <h1 className="hall-name1">Hall Kathmandu</h1>
-      <p className="hall-info1">Capacity 600 - 1000</p>
-      <p className="hall-cost1">Cost: $2000 per day</p> 
-      {/* Add buttons for adding and removing hall */}
+    <section className="hall-wrapper">
+      <h1 className="hall-title">Halls</h1>
+      <table className="hall-table">
+        <thead>
+          <tr>
+            <th>Hall ID</th>
+            <th>Hall Name</th>
+            <th>Capacity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Hall Kathmandu</td>
+            <td>600 - 1000</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Hall Bhaktapur</td>
+            <td>450 - 800</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Hall Kritipur</td>
+            <td>100 - 250</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Hall Patan</td>
+            <td>200 - 500</td>
+          </tr>
+        </tbody>
+      </table>
       <div className="hall-actions">
-              <button className="add-hall-button" onClick={onAddHallClick}>Add</button>
-              <button className="remove-hall-button" onClick={onRemoveHallClick}>Remove</button>
-            </div>
-    </div>
-    <div className="hallbhaktapur1">
-      <img src="/images/HallBhaktapur.jpg" alt="" className="hallimages1" onClick={onImageClick} />
-      <h1 className="hall-name1">Hall Bhaktapur</h1>
-      <p className="hall-info1">Capacity 450 - 800</p>
-      <p className="hall-cost1">Cost: $2000 per day</p> 
-      {/* Add buttons for adding and removing hall */}
-      <div className="hall-actions">
-              <button className="add-hall-button" onClick={onAddHallClick}>Add</button>
-              <button className="remove-hall-button" onClick={onRemoveHallClick}>Remove</button>
-            </div>
-    </div>
-  </div>
-  <div className="hall">
-    <div className="hallpatan1">
-      <img src="/images/HallPatan.jpg" alt="" className="hallimages1" onClick={onImageClick} />
-      <h1 className="hall-name1">Hall Patan</h1>
-      <p className="hall-info1">Capacity 200 - 500</p>
-      <p className="hall-cost1">Cost: $2000 per day</p>
-      {/* Add buttons for adding and removing hall */}
-      <div className="hall-actions">
-              <button className="add-hall-button" onClick={onAddHallClick}>Add</button>
-              <button className="remove-hall-button" onClick={onRemoveHallClick}>Remove</button>
-            </div>
-    </div>
-    <div className="hallkritipur1">
-      <img src="/images/HallKritipur.jpeg" alt="" className="hallimages1" onClick={onImageClick} />
-      <h1 className="hall-name1">Hall Kritipur</h1>
-      <p className="hall-info1">Capacity 100 - 250</p>
-      <p className="hall-cost1">Cost: $2000 per day</p>
-      {/* Add buttons for adding and removing hall */}
-      <div className="hall-actions">
-              <button className="add-hall-button" onClick={onAddHallClick}>Add</button>
-              <button className="remove-hall-button" onClick={onRemoveHallClick}>Remove</button>
-            </div>
-    </div>
-  </div>
-</div>
+        <button className="button add-button">Add</button>
+        <button className="button edit-button">Edit</button>
+        <button className="button remove-button">Remove</button>
+      </div>
     </section>
   );
 };
 
 export default AdminHall;
+

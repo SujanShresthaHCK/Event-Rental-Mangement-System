@@ -141,7 +141,7 @@ h2 {
 /* Sidebar  */
 #sidebar {
   grid-area: sidebar;
-  height: 160vh;
+  height: 100vh;
   background-color: #ffffff;
   overflow-y: auto;
   transition: all 0.5s;
@@ -283,6 +283,40 @@ h2 {
 }
 
 /* End Main  */
+/* App.css */
+
+/* Style for the menu button container */
+.menu-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Style for the menu button */
+.menu-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* No text decoration */
+  display: inline-block; /* Display as inline block */
+  font-size: 16px; /* Font size */
+  margin-top: 10px; /* Margin top */
+  margin-bottom: 55px;
+  cursor: pointer; /* Cursor pointer */
+  border-radius: 5px; /* Border radius */
+  transition: background-color 0.3s; /* Transition effect */
+}
+
+/* Change button background color on hover */
+.menu-button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+/* Change button background color on active */
+.menu-button:active {
+  background-color: #8b4513; /* Dark green */
+}
 
 
 /* Medium <= 992px */

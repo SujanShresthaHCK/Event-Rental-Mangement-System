@@ -1,0 +1,30 @@
+/* GoldMenu.css */
+
+.gold-menu-container {
+    padding: 20px;
+  }
+  
+  .gold-menu-content {
+    margin-top: 20px;
+  }
+  
+  .gold-dish-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .gold-dish-table th,
+  .gold-dish-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .gold-dish-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .gold-dish-info {
+    overflow-x: auto;
+  }
+  

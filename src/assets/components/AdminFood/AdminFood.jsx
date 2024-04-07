@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 
 // FoodCategories component
 const FoodCategories = ({ categories }) => (
@@ -11,7 +10,6 @@ const FoodCategories = ({ categories }) => (
           <h3>{category.name}</h3>
           {/* Pass the 'dishes' array to FoodDishes */}
           <FoodDishes dishes={category.dishes} />
-
         </div>
       ))}
     </div>
@@ -19,29 +17,39 @@ const FoodCategories = ({ categories }) => (
 );
 
 // FoodDishes component
-// FoodDishes component
-const FoodDishes = ({ dishes }) => (
-  <div className="food-dishes">
-    {/* Ensure 'dishes' is an array before using 'map' */}
-    {Array.isArray(dishes) && dishes.map(dish => (
-      <div key={dish.id} className="dish">
-        {/* Display the dish image */}
-        <div className="dish-info">
-          <img src={dish.image} alt={dish.name} className="dish-image" />
+const FoodDishes = ({ dishes }) => {
+  const handleClick = (menuName) => {
+    // Handle click event here
+    console.log(`Clicked on menu: ${menuName}`);
+    // You can perform any action you want here
+  };
+
+  return (
+    <div className="food-dishes">
+      {/* Ensure 'dishes' is an array before using 'map' */}
+      {Array.isArray(dishes) && dishes.map(dish => (
+        <div key={dish.id} className="dish">
+          {/* Display the dish image */}
+          <div className="dish-info">
+            <img src={dish.image} alt={dish.name} className="dish-image" />
+          </div>
+          {/* Display the dish name and cost */}
+          <div className="dish-details">
+            <h4>{dish.name}</h4>
+            <p className="dish-cost">{dish.cost}</p>
+          </div>
+          {/* Display the menu button with the menu name */}
+          <button className="menu-button" onClick={() => handleClick(dish.menuName)}>
+            {dish.menuName}
+          </button>
         </div>
-        {/* Display the dish name and cost */}
-        <div className="dish-details">
-          <h4>{dish.name}</h4>
-          <p className="dish-cost">{dish.cost}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
+};
 
-
-
-const PackageTable = ({packages }) => (
+// PackageTable component
+const PackageTable = ({ packages }) => (
   <div className="package-table">
     <h2>Packages</h2>
     <table>
@@ -65,6 +73,7 @@ const PackageTable = ({packages }) => (
   </div>
 );
 
+// App component
 const App = () => {
   const categories = [
     {
@@ -75,7 +84,8 @@ const App = () => {
           id: 1,
           name: 'Silver Package',
           image: '/images/SilverPackage.jpg',
-          cost: '$10000'
+          cost: '$10000',
+          menuName: 'Silver Menu'
         }
       ]
     },
@@ -87,7 +97,8 @@ const App = () => {
           id: 2,
           name: 'Gold package',
           image: '/images/GoldPackage.jpg',
-          cost: '$20000'
+          cost: '$20000',
+          menuName: 'Gold Menu'
         }
       ]
     },
@@ -99,12 +110,12 @@ const App = () => {
           id: 3,
           name: 'Platinum package',
           image: '/images/PlatiniumPackage.jpg',
-          cost: '$200'
+          cost: '$20000',
+          menuName: 'Platinum Menu'
         }
       ]
     }
   ];
-  
 
   const packages = [
     { id: 1, name: 'Silver package', price: '$10000' },
@@ -121,3 +132,5 @@ const App = () => {
 };
 
 export default App;
+
+

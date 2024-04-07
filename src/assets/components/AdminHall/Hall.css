@@ -1,65 +1,71 @@
-.hall-title{
-    margin-left: 20px;
+/* Hall.css */
+.hall-wrapper {
+  padding: 20px;
 }
 
-.hall {
-    display: flex;
-    /* Add styles for the hall div */
-  }
-  
-  .hallkathmandu1,
-  .hallbhaktapur1,
-  .hallpatan1,
-  .hallkritipur1 {
-    flex: 1;
-    padding-right: 80px;
-    padding-bottom: 80px;
-    margin-left: 20px;
-    /* Add styles for individual halls */
-  }
-  
-  .hallimages1 {
-    height: 500px;
-    width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    height: 500px;
-    width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-    /* Add styles for the hall images */
-  }
+.hall-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.hall-table {
+  width: 200%;
+  border-collapse: collapse;
+}
+
+.hall-table th,
+.hall-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.hall-table th {
+  background-color: #f2f2f2;
+}
+
+.hall-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid transparent; /* Set border */
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s; /* Add border-color transition */
+  background-color: black; /* Set button color to black */
+  color: white; /* Set text color to white */
+}
+
+.button.add-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button.edit-button {
+  background-color: #af9545;
+  color: black;
+}
+
+.button.remove-button {
+  background-color: #F44336;
+  color: white;
+}
+
+.button:hover {
+  background-color: #333;
+}
+
+.button:active {
+  transform: translateY(2px);
+}
 
 
 
-  .remove-hall-button {
-    background-color: #ff6347; /* Red color for the button */
-    color: white; /* White text color */
-    padding: 10px 20px; /* Padding around the text */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Cursor on hover */
-    font-size: 16px; /* Font size */
-    margin-right: 10px;
-  }
-  
-  .remove-hall-button:hover {
-    background-color: #cc4c3b; /* Darker red color on hover */
-  }
 
-  .add-hall-button {
-    background-color: #008000; /* Green color for the button */
-    color: white; /* White text color */
-    padding: 10px 20px; /* Padding around the text */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Cursor on hover */
-    font-size: 16px; /* Font size */
-    margin-right: 10px;
-  }
-  
-  .add-hall-button:hover {
-    background-color: #006400; /* Darker green color on hover */
-  }
-  
   
