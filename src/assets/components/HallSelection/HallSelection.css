@@ -20,12 +20,11 @@
 }
 
 .hallimages {
-  height: 500px;
-  width: 500px;
+  height: 600px;
+  width: 750px;
+  object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  height: 500px;
-  width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }

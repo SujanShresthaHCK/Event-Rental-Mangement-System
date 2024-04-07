@@ -1,7 +1,7 @@
 import React from "react";
 import "./Buffet.css";
 
-const Buffet = ({ onBack, onSelect }) => {
+const Buffet = ({ onBack, onBuffetSelectClick }) => {
   return (
     <section className="buffet-wrapper">
       <button onClick={onBack} className="backbtn">
@@ -24,11 +24,10 @@ const Buffet = ({ onBack, onSelect }) => {
               <div className="buffet-des">
                 <h1>Gold Package</h1>
                 <p>Per Person Rs. 3400</p>
-                <p>Best Seller</p>
                 <p>
                   Items: Soup [3], Starters [11], Main Course [15], Dessert [5]
                 </p>
-                <button className="select" onClick={onSelect}>
+                <button className="select" onClick={onBuffetSelectClick}>
                   Select
                 </button>
               </div>
@@ -41,12 +40,12 @@ const Buffet = ({ onBack, onSelect }) => {
                 className="buffetimages"
               />
               <div className="buffet-des">
-                <h1>Silver Package</h1>
+                <h1>Platinium Package</h1>
                 <p>Per Person Rs. 2600</p>
                 <p>
                   Items: Soup [1], Starters [7], Main Course [10], Dessert [3]
                 </p>
-                <button className="select" onClick={onSelect}>
+                <button className="select" onClick={onBuffetSelectClick}>
                   Select
                 </button>
               </div>
@@ -58,10 +57,10 @@ const Buffet = ({ onBack, onSelect }) => {
                 className="buffetimages"
               />
               <div className="buffet-des">
-                <h1>Platinium Package</h1>
+                <h1>Silver Package</h1>
                 <p>Per Person Rs. 2200</p>
                 <p>Soup [1], Starters [5], Main Course [8], Dessert [2]</p>
-                <button className="select" onClick={onSelect}>
+                <button className="select" onClick={onBuffetSelectClick}>
                   Select
                 </button>
               </div>

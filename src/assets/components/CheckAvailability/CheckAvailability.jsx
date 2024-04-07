@@ -12,7 +12,7 @@ const CheckAvailability = () => {
   const [singleDayDate, setSingleDayDate] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [eventType, setEventType] = useState("Wedding"); // New state for event type
+  const [eventType, setEventType] = useState("Wedding");
 
   const [estimatedGuests, setEstimatedGuests] = useState("");
   const [days, setDays] = useState("Single-Day");
