@@ -23,7 +23,7 @@ const BookVenue = () => {
       setSelectedHall(null);
       setShowBuffet(false);
       setShowCheckout(false);
-    } // Reset showBuffet state when going back
+    }
   };
 
   const handleImageClick = (hallName) => {

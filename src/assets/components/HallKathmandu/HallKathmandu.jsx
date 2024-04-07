@@ -20,7 +20,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         enqueueSnackbar("Latest data retrieved. Check console.", {
           variant: "info",
         });
-        // Update the document with the new value
+
         updateDocument(latestId);
       })
       .catch((error) => {
@@ -94,7 +94,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         className="selectbtn"
         onClick={() => {
           onSelectClick();
-          handleSaveBook(); // Call handleSaveBook when Select Hall button is clicked
+          handleSaveBook();
         }}
       >
         Select Hall

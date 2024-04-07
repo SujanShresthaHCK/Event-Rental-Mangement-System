@@ -13,7 +13,8 @@ const CheckAvailability = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [eventType, setEventType] = useState("Wedding");
-
+  const [eventData, setEventData] = useState({});
+  const [allEventData, setAllEventData] = useState({});
   const [estimatedGuests, setEstimatedGuests] = useState("");
   const [days, setDays] = useState("Single-Day");
   const [dayShift, setShifts] = useState("Morning");
@@ -23,6 +24,54 @@ const CheckAvailability = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    fetchEventData();
+  }, []);
+
+  const fetchEventData = () => {
+    setLoading(true);
+    // Fetch last data
+    axios
+      .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
+      .then((response) => {
+        setLoading(false);
+        const latestData = response.data.data.pop();
+        setEventData(latestData);
+        console.log(latestData);
+        enqueueSnackbar("Latest event data retrieved successfully", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        setLoading(false);
+        enqueueSnackbar("Error retrieving latest event data", {
+          variant: "error",
+        });
+        console.log(error);
+      });
+
+    // Fetch all data
+    axios
+      .get("http://localhost:9000/books")
+      .then((response) => {
+        setLoading(false);
+        const allData = response.data;
+        // Assuming allData is an array of book objects, setEventData with allData
+        setAllEventData(allData);
+        console.log(allData);
+        enqueueSnackbar("All event data retrieved successfully", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        setLoading(false);
+        enqueueSnackbar("Error retrieving all event data", {
+          variant: "error",
+        });
+        console.log(error);
+      });
+  };
 
   const handleSaveBook = () => {
     const data = {
@@ -38,6 +87,8 @@ const CheckAvailability = () => {
     axios
       .post("http://localhost:9000/books", data)
       .then(() => {
+        // Call fetchEventData after successful book creation
+        fetchEventData(); // This will be called after the book is successfully created
         setLoading(false);
         enqueueSnackbar("Book Created successfully", { variant: "success" });
         navigate("/bookvenue"); // Redirect to /bookvenue page after successful booking

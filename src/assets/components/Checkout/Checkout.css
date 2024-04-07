@@ -38,3 +38,15 @@
   background-color: #846330;
   transform: translateY(-2px);
 }
+.personalinfoForm input {
+  width: 200px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 5px;
+  margin: 5px 0px;
+}
+.personalinfoForm h3 {
+  font-weight: 400;
+  color: #846330;
+  font-size: 16px;
+}
