@@ -12,8 +12,6 @@ function Hall() {
 
   return (
     <div className='grid-container'>
-      <AdminHeader OpenSidebar={OpenSidebar}/>
-      <AdminSidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
       <AdminHall/>
     </div>
   );

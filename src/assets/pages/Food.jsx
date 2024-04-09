@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import AdminHeader from '../components/AdminFood/AdminHeader'
-import AdminSidebar from '../components/AdminFood/AdminSidebar'
 import AdminFood from '../components/AdminFood/AdminFood'
 
 function Food() {
@@ -12,8 +10,6 @@ function Food() {
   
     return (
       <div className='grid-container'>
-        <AdminHeader OpenSidebar={OpenSidebar}/>
-        <AdminSidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
         <AdminFood />
       </div>
     );

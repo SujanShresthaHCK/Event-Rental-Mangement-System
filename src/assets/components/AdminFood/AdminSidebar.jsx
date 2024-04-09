@@ -1,7 +1,9 @@
 import React from 'react';
 import {BsFillGrid3X3GapFill, BsBuilding, BsBoxArrowRight, BsGrid1X2Fill } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom"
 
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
+  const navigate = useNavigate();
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
@@ -12,15 +14,15 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
 
       <ul className='sidebar-list'>
-      <li className='sidebar-list-item'>
+      <li className='sidebar-list-item' onClick={() => navigate('')}>
           <BsGrid1X2Fill className='icon' />
           Dashboard
         </li>
-        <li className='sidebar-list-item'>
+        <li className='sidebar-list-item' onClick={() => navigate('foodCategories') }>
           <BsFillGrid3X3GapFill className='icon' />
           Food categories
         </li>
-        <li className='sidebar-list-item'>
+        <li className='sidebar-list-item' onClick={() => navigate('hall')}>
           <BsBuilding className='icon' />
           Hall
         </li>

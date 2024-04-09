@@ -12,6 +12,8 @@ import Remove from "./assets/pages/Remove";
 import Silver from "./assets/pages/Silver";
 import Gold from "./assets/pages/Gold"
 import Platinium from "./assets/pages/Platinium";
+import AdminDashboard from "./assets/components/AdminDashboard/AdminDashboard";
+
 
 function App() {
   const [backendData, setBackendData] = useState([]);
@@ -30,14 +32,17 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/bookvenue" element={<BookVenue />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/hall" element={<Hall />} />
+          <Route path="/admin" element={<Admin />} >
+            <Route index element={<AdminDashboard />} />
+            <Route path="foodCategories" element={<Food/>} />
+            <Route path="hall" element={<Hall />} />
+          </Route>
           <Route path="/food" element={<Food />} />
           <Route path="/add" element={<Add />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/remove" element={<Remove />} />
           <Route path="/silver" element={<Silver />} />
-          <Route path="/golden" elements={<Gold />} />
+          <Route path="/gold" elements={<Gold />} />
           <Route path="/platinium" elements={<Platinium />} />
         </Routes>
       </BrowserRouter>
