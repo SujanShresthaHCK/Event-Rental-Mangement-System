@@ -1,0 +1,95 @@
+/* Food categoris*/
+h2 {
+    margin-left: 15px;
+   }
+   .food-categories {
+     margin-bottom: 20px;
+   }
+   
+   .category-container {
+     display: flex;
+   }
+   
+   .category {
+     margin-right: 15px;
+     margin-left: 15px;
+   }
+   
+   .food-dishes {
+     margin-top: 10px;
+   }
+   
+   .dish {
+     border: 1px solid #ccc;
+     padding: 20px;
+     margin-bottom: 20px;
+     position: relative;
+   }
+   
+   .dish-info {
+     display: flex;
+     align-items: center;
+   }
+   
+   .dish-details {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     background-color: rgba(6, 2, 2, 0.8); /* Optional background color */
+     padding: 10px;
+     box-sizing: border-box;
+   }
+   
+   .dish-image {
+     width: 200px;
+     height: 200px;
+     margin-right: 5px;
+   }
+   
+   .package-table {
+     margin-top: 20px;
+     margin-left: 15px;
+   }
+   
+   .package-row td {
+     border: 1px solid #ccc;
+     padding: 8px;
+   }
+
+   /* Style for the menu button container */
+.menu-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Style for the menu button */
+  .menu-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline block */
+    font-size: 16px; /* Font size */
+    margin-top: 10px; /* Margin top */
+    margin-bottom: 55px;
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 5px; /* Border radius */
+    transition: background-color 0.3s; /* Transition effect */
+  }
+  
+  /* Change button background color on hover */
+  .menu-button:hover {
+    background-color: #45a049; /* Darker green */
+  }
+  
+  /* Change button background color on active */
+  .menu-button:active {
+    background-color: #8b4513; /* Dark green */
+  }
+  
+   
+   
+   /*end */

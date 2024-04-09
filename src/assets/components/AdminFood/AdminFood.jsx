@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './AdminFood.css';
 
 // FoodCategories component
 const FoodCategories = ({ categories }) => (

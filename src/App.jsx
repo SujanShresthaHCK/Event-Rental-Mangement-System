@@ -6,12 +6,6 @@ import BookVenue from "./assets/pages/BookVenue";
 import Admin from "./assets/pages/Admin";
 import Hall from "./assets/pages/Hall";
 import Food from "./assets/pages/Food";
-import Add from "./assets/pages/Add";
-import Edit from "./assets/pages/Edit";
-import Remove from "./assets/pages/Remove";
-import Silver from "./assets/pages/Silver";
-import Gold from "./assets/pages/Gold"
-import Platinium from "./assets/pages/Platinium";
 import AdminDashboard from "./assets/components/AdminDashboard/AdminDashboard";
 
 
@@ -32,18 +26,12 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/bookvenue" element={<BookVenue />} />
-          <Route path="/admin" element={<Admin />} >
-            <Route index element={<AdminDashboard />} />
-            <Route path="foodCategories" element={<Food/>} />
-            <Route path="hall" element={<Hall />} />
+          <Route path="/dashboard" element={<Admin />} >
+          <Route index element={<AdminDashboard />} />
+          <Route path="foodCategories" element={<Food/>} />
+          <Route path="hall" element={<Hall />} />
           </Route>
           <Route path="/food" element={<Food />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/remove" element={<Remove />} />
-          <Route path="/silver" element={<Silver />} />
-          <Route path="/gold" elements={<Gold />} />
-          <Route path="/platinium" elements={<Platinium />} />
         </Routes>
       </BrowserRouter>
     </>
