@@ -70,7 +70,10 @@ const BookVenue = () => {
       ) : showCheckout ? (
         <Checkout onBack={handleBackClick} />
       ) : (
-        <HallSelection onImageClick={handleImageClick} />
+        <HallSelection
+          onImageClick={handleImageClick}
+          onSelectClick={handleSelectClick}
+        />
       )}
     </div>
   );

@@ -50,14 +50,6 @@ const Occasion = () => {
               }}
             />{" "}
           </span>
-          {/* <div className="bottom">
-            <h1
-              style={{ fontWeight: "500", fontSize: "25px", color: "#846330" }}
-            >
-              Hamro Banquet
-            </h1>
-            <img src="/images/logo.png" alt="" />
-          </div> */}
         </div>
       </div>
     </section>

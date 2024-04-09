@@ -64,41 +64,49 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
   };
 
   return (
-    <div className="kathmanducontainer">
-      <div className="kathmandu-wrapper">
-        <button className="backbtn" onClick={onBack}>
-          ⬅ Back
-        </button>
-        <div className="kathmandu-content">
-          <h1 className="title" style={{ fontWeight: "500", color: "#846330" }}>
-            Hall Kathmandu
-          </h1>
-          <span>Capacity 600 - 1000</span>
-          <div
-            className="scroll-container"
-            ref={scrollRef}
-            onScroll={handleScroll}
-          >
-            {imageData.map((item, index) => (
-              <img
-                key={index}
-                src={item.img}
-                alt=""
-                className="kathmandu-image"
-              />
-            ))}
+    <div className="container">
+      <button className="backbtn" onClick={onBack}>
+        ⬅ Back
+      </button>
+      <div className="kathmanducontainer">
+        <h1
+          style={{
+            color: "#846330",
+            fontWeight: "600",
+            fontSize: "35px",
+          }}
+        >
+          Hall Kathmandu
+        </h1>
+        <p style={{ color: "gray" }}>Capacity 850-1000</p>
+        <p style={{ paddingBottom: "20px", color: "gray" }}>
+          Events: Wedding. Anniversary. Engagement. Bartamanda.
+        </p>
+        <div className="kathmandu-wrapper">
+          <div className="column">
+            <div className="photo">
+              <img src="/images/HallKathmandu-2.jpg" alt="" />
+            </div>
+            <div className="photo">
+              <img src="/images/HallKathmandu.jpg" alt="" />
+            </div>
+          </div>
+          <div className="column">
+            <div className="photo">
+              <img src="/images/HallKathmandu-1.jpeg" alt="" />
+            </div>
           </div>
         </div>
+        <button
+          className="selectbtn"
+          onClick={() => {
+            onSelectClick();
+            handleSaveBook();
+          }}
+        >
+          Select Hall
+        </button>
       </div>
-      <button
-        className="selectbtn"
-        onClick={() => {
-          onSelectClick();
-          handleSaveBook();
-        }}
-      >
-        Select Hall
-      </button>
     </div>
   );
 };

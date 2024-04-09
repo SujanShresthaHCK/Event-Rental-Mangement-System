@@ -1,26 +1,12 @@
 import React, { useRef, useState } from "react";
 import { imageData } from "./mockData";
+import "./HallPatan.css";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import "./HallPatan.css";
 
 const HallKathmandu = ({ onSelectClick, onBack }) => {
-  const scrollRef = useRef(null);
-  const [showBackButton, setShowBackButton] = useState(false); // State to control back button visibility
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const handleScroll = () => {
-    const container = scrollRef.current;
-    if (container) {
-      setShowBackButton(container.scrollLeft > 0); // Show back button if scrolled to the right
-    }
-  };
-
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    }
-  };
 
   const handleSaveBook = () => {
     setLoading(true);
@@ -34,7 +20,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         enqueueSnackbar("Latest data retrieved. Check console.", {
           variant: "info",
         });
-        // Update the document with the new value
+
         updateDocument(latestId);
       })
       .catch((error) => {
@@ -46,7 +32,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
 
   const updateDocument = (id) => {
     const data = {
-      hallName: "Hall Patan",
+      hallName: "Hall Kathmandu",
     };
     axios
       .put(`http://localhost:9000/books/${id}`, data)
@@ -61,42 +47,69 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
       });
   };
 
+  const scrollRef = useRef(null);
+  const [showBackButton, setShowBackButton] = useState(false);
+
+  const handleScroll = () => {
+    const container = scrollRef.current;
+    if (container) {
+      setShowBackButton(container.scrollLeft > 0);
+    }
+  };
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
+
   return (
-    <div className="kathmanducontainer">
-      <div className="kathmandu-wrapper">
-        <button className="backbtn" onClick={onBack}>
-          ⬅ Back
-        </button>
-        <div className="kathmandu-content">
-          <h1 className="title" style={{ fontWeight: "500", color: "#846330" }}>
-            Hall Patan
-          </h1>
-          <span>Capacity 200 - 500</span>
-          <div
-            className="scroll-container"
-            ref={scrollRef}
-            onScroll={handleScroll}
-          >
-            {imageData.map((item, index) => (
-              <img
-                key={index}
-                src={item.img}
-                alt=""
-                className="kathmandu-image"
-              />
-            ))}
+    <div className="container">
+      <button className="backbtn" onClick={onBack}>
+        ⬅ Back
+      </button>
+      <div className="kathmanducontainer">
+        <h1
+          style={{
+            color: "#846330",
+            fontWeight: "600",
+            fontSize: "35px",
+          }}
+        >
+          Hall Bhaktapur
+        </h1>
+        <p style={{ color: "gray" }}>Capacity 850-1000</p>
+        <p style={{ paddingBottom: "20px", color: "gray" }}>
+          Events: Wedding. Anniversary. Engagement. Bartamanda.
+        </p>
+        <div className="kathmandu-wrapper">
+          <div className="column">
+            <div className="photo">
+              <img src="/images/HallPatan.jpg" alt="" />
+            </div>
+            <div className="photo">
+              <img src="/images/HallPatan-1.jpg" alt="" />
+            </div>
+          </div>
+          <div className="column">
+            <div className="photo">
+              <img src="/images/HallPatan-2.jpg" alt="" />
+            </div>
+            <div className="photo">
+              <img src="/images/HallPatan-3.jpg" alt="" />
+            </div>
           </div>
         </div>
+        <button
+          className="selectbtn"
+          onClick={() => {
+            onSelectClick();
+            handleSaveBook();
+          }}
+        >
+          Select Hall
+        </button>
       </div>
-      <button
-        className="selectbtn"
-        onClick={() => {
-          onSelectClick();
-          handleSaveBook(); // Call handleSaveBook when Select Hall button is clicked
-        }}
-      >
-        Select Hall
-      </button>
     </div>
   );
 };

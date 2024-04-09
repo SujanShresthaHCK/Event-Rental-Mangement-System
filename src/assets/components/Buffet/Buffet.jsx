@@ -115,9 +115,9 @@ const Buffet = ({ onBack, onBuffetSelectClick }) => {
               </div>
             </div>
           </div>
-          <div className="menuimg">
+          {/* <div className="menuimg">
             <img src="images/menu.png" alt="" />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

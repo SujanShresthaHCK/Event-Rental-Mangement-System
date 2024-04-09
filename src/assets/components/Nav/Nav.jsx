@@ -9,7 +9,6 @@ const Nav = () => {
         <Link to="/home">
           <img src="/images/logo.png" alt="" />
         </Link>
-        <h1>Hamro Banquet</h1>
         <div className="line"></div>
         <div className="bookline"></div>
         <h1

@@ -22,12 +22,33 @@ const CheckAvailability = () => {
   const [startDatedb, setStartDatedb] = useState("");
   const [endDatedb, setEndDatedb] = useState("");
   const [loading, setLoading] = useState(false);
+  const [guestsExceedLimit, setGuestsExceedLimit] = useState(false);
+  const [allFieldsEntered, setAllFieldsEntered] = useState(false); // Track if all input fields are entered
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     fetchEventData();
   }, []);
+
+  useEffect(() => {
+    // Check if all input fields are entered
+    const areAllFieldsEntered =
+      estimatedGuests !== "" &&
+      eventType !== "" &&
+      (eventState === "Single-Day"
+        ? singleDayDate !== null
+        : startDate !== null && endDate !== null);
+
+    setAllFieldsEntered(areAllFieldsEntered);
+  }, [
+    estimatedGuests,
+    eventType,
+    eventState,
+    singleDayDate,
+    startDate,
+    endDate,
+  ]);
 
   const fetchEventData = () => {
     setLoading(true);
@@ -38,7 +59,6 @@ const CheckAvailability = () => {
         setLoading(false);
         const latestData = response.data.data.pop();
         setEventData(latestData);
-        console.log(latestData);
         enqueueSnackbar("Latest event data retrieved successfully", {
           variant: "success",
         });
@@ -57,9 +77,7 @@ const CheckAvailability = () => {
       .then((response) => {
         setLoading(false);
         const allData = response.data;
-        // Assuming allData is an array of book objects, setEventData with allData
         setAllEventData(allData);
-        console.log(allData);
         enqueueSnackbar("All event data retrieved successfully", {
           variant: "success",
         });
@@ -74,38 +92,45 @@ const CheckAvailability = () => {
   };
 
   const handleSaveBook = () => {
-    const data = {
-      estimatedGuests,
-      eventType,
-      days,
-      dayShift,
-      bookDate,
-      startDate,
-      endDate,
-    };
-    setLoading(true);
-    axios
-      .post("http://localhost:9000/books", data)
-      .then(() => {
-        // Call fetchEventData after successful book creation
-        fetchEventData(); // This will be called after the book is successfully created
-        setLoading(false);
-        enqueueSnackbar("Book Created successfully", { variant: "success" });
-        navigate("/bookvenue"); // Redirect to /bookvenue page after successful booking
-      })
-      .catch((error) => {
-        setLoading(false);
-        enqueueSnackbar("Error", { variant: "error" });
-        console.log(error);
-      });
-  };
+    const estimatedGuestsNumber = parseInt(estimatedGuests);
+    if (estimatedGuestsNumber > 1250) {
+      setGuestsExceedLimit(true);
+      return;
+    }
 
-  useEffect(() => {
-    setEventState("Single-Day");
-    setDays("Single-Day");
-    setShifts("Morning");
-    setEventType("Wedding");
-  }, []);
+    // Check if any required field is empty
+    if (!allFieldsEntered) {
+      enqueueSnackbar("Input fields are empty", { variant: "error" });
+      return;
+    }
+
+    // **Redirect only if both conditions are met**
+    if (!guestsExceedLimit && allFieldsEntered) {
+      const data = {
+        estimatedGuests,
+        eventType,
+        days,
+        dayShift,
+        bookDate,
+        startDate,
+        endDate,
+      };
+      setLoading(true);
+      axios
+        .post("http://localhost:9000/books", data)
+        .then(() => {
+          fetchEventData();
+          setLoading(false);
+          enqueueSnackbar("Book Created successfully", { variant: "success" });
+        })
+        .catch((error) => {
+          setLoading(false);
+          enqueueSnackbar("Error", { variant: "error" });
+          console.log(error);
+        });
+      navigate("/bookvenue");
+    }
+  };
 
   return (
     <section className="check-wrapper">
@@ -142,8 +167,14 @@ const CheckAvailability = () => {
                 className="inputfield"
                 type="text"
                 value={estimatedGuests}
-                onChange={(e) => setEstimatedGuests(e.target.value)}
+                onChange={(e) => {
+                  setEstimatedGuests(e.target.value);
+                  setGuestsExceedLimit(false); // Reset guests exceed limit state
+                }}
               />
+              {guestsExceedLimit && (
+                <p style={{ color: "red" }}>Maximum limit for guests is 1250</p>
+              )}
               <h2>Days</h2>
               <select
                 className="event-comboBox"
@@ -241,11 +272,20 @@ const CheckAvailability = () => {
                   <option value="Corporate Event">Corporate Event</option>
                 </select>
               </div>
-              <Link to="/bookvenue">
-                <button className="check-button" onClick={handleSaveBook}>
-                  CHECK AVAILABILITY
-                </button>
-              </Link>
+              {!allFieldsEntered && (
+                <p style={{ color: "red" }}>
+                  Note: All input fields should be entered.
+                </p>
+              )}
+              {/* <Link to="/bookvenue"> */}
+              <button
+                className="check-button"
+                onClick={handleSaveBook}
+                disabled={guestsExceedLimit || !allFieldsEntered}
+              >
+                CHECK AVAILABILITY
+              </button>
+              {/* </Link> */}
             </div>
           </form>
         </div>
