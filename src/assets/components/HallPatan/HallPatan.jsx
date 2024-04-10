@@ -32,7 +32,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
 
   const updateDocument = (id) => {
     const data = {
-      hallName: "Hall Kathmandu",
+      hallName: "Hall Patan",
     };
     axios
       .put(`http://localhost:9000/books/${id}`, data)
@@ -85,7 +85,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         <div className="kathmandu-wrapper">
           <div className="column">
             <div className="photo">
-              <img src="/images/HallPatan.jpg" alt="" />
+              <img src="/images/Hall Patan.jpg" alt="" />
             </div>
             <div className="photo">
               <img src="/images/HallPatan-1.jpg" alt="" />

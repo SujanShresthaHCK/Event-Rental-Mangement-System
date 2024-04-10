@@ -7,10 +7,9 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [eventData, setEventData] = useState({});
-  const [hallData, setHallData] = useState({});
+  const [hallData, setHallData] = useState([]);
 
-  let hallnameselected;
+  let hallNameSelected;
 
   const handleSaveBook = () => {
     setLoading(true);
@@ -18,8 +17,8 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
       .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
       .then((response) => {
         setLoading(false);
-        const latestData = response.data.data.pop(); // Get the last element of the data array
-        const latestId = latestData._id; // Get the _id of the latest data
+        const latestData = response.data.data.pop();
+        const latestId = latestData._id;
         enqueueSnackbar("Latest data retrieved. Check console.", {
           variant: "info",
         });
@@ -35,7 +34,7 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
 
   const updateDocument = (id) => {
     const data = {
-      hallName: hallnameselected,
+      hallName: hallNameSelected,
     };
     axios
       .put(`http://localhost:9000/books/${id}`, data)
@@ -51,28 +50,8 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
   };
 
   useEffect(() => {
-    fetchEventData();
+    fetchHallData();
   }, []);
-
-  const fetchEventData = () => {
-    setLoading(true);
-    axios
-      .get("http://localhost:9000/books?_sort=createdAt&_order=desc")
-      .then((response) => {
-        setLoading(false);
-        const eventData = response.data.data;
-        setEventData(eventData);
-        console.log(eventData);
-        enqueueSnackbar("Event data retrieved successfully", {
-          variant: "success",
-        });
-      })
-      .catch((error) => {
-        setLoading(false);
-        enqueueSnackbar("Error retrieving event data", { variant: "error" });
-        console.log(error);
-      });
-  };
 
   const fetchHallData = () => {
     setLoading(true);
@@ -82,14 +61,13 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
         setLoading(false);
         const hallData = response.data.data;
         setHallData(hallData);
-        console.log(hallData);
-        enqueueSnackbar("Event data retrieved successfully", {
+        enqueueSnackbar("Hall data retrieved successfully", {
           variant: "success",
         });
       })
       .catch((error) => {
         setLoading(false);
-        enqueueSnackbar("Error retrieving event data", { variant: "error" });
+        enqueueSnackbar("Error retrieving hall data", { variant: "error" });
         console.log(error);
       });
   };
@@ -118,114 +96,46 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
         Available halls for the selected date.
       </p>
       <div className="hall-container">
-        <div className="halls hall-kathmandu" style={{}}>
-          <img src="/images/HallKathmandu.jpg" alt="" className="hallimg" />
-          <div className="hallDes">
-            <h1>Hall Kathmandu</h1>
-            <p>Capacity 850-1000</p>
-            <p>Events: Wedding. Anniversary. Engagement. Bartamanda.</p>
-            <div className="buttons">
-              <button
-                className="primarybtn"
-                onClick={() => {
-                  hallnameselected = "Hall Kathmandu";
-                  handleSaveBook();
-                  onSelectClick();
-                }}
-              >
-                Select
-              </button>
+        {hallData.map((hall, index) =>
+          hall.name === "Hall Bhaktapur" ? null : (
+            <div
+              key={index}
+              className={`halls hall-${hall.name
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+            >
+              <img
+                src={`/images/${hall.name}.jpg`}
+                alt={hall.name}
+                className="hallimg"
+              />
+              <div className="hallDes">
+                <h1>{hall.name}</h1>
+                <p>Capacity: {hall.capacity}</p>
 
-              <button
-                className="secondarybtn"
-                onClick={() => onImageClick("HallKathmandu")}
-              >
-                View Hall
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="halls hall-bhaktapur">
-          <img src="/images/HallBhaktapur.jpg" alt="" className="hallimg" />
-          <div className="hallDes">
-            <h1>Hall Bhaktapur</h1>
-            <p>Capacity 850-1000</p>
-            <p>Events: Wedding. Anniversary. Engagement. Bartamanda.</p>
-            <div className="buttons">
-              <button
-                className="primarybtn"
-                onClick={() => {
-                  hallnameselected = "Hall Bhaktapur";
-                  handleSaveBook();
-                  onSelectClick();
-                }}
-              >
-                Select
-              </button>
+                <div className="buttons">
+                  <button
+                    className="primarybtn"
+                    onClick={() => {
+                      hallNameSelected = hall.name;
+                      handleSaveBook();
+                      onSelectClick();
+                    }}
+                  >
+                    Select
+                  </button>
 
-              <button
-                className="secondarybtn"
-                onClick={() => onImageClick("HallBhaktapur")}
-              >
-                View Hall
-              </button>
+                  <button
+                    className="secondarybtn"
+                    onClick={() => onImageClick(hall.name)}
+                  >
+                    View Hall
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="halls hall-patan">
-          <img src="/images/HallPatan.jpg" alt="" className="hallimg" />
-          <div className="hallDes">
-            <h1>Hall Patan</h1>
-            <p>Capacity 850-1000</p>
-            <p>Events: Wedding. Anniversary. Engagement. Bartamanda.</p>
-            <div className="buttons">
-              <button
-                className="primarybtn"
-                onClick={() => {
-                  hallnameselected = "Hall Patan";
-                  handleSaveBook();
-                  onSelectClick();
-                }}
-              >
-                Select
-              </button>
-
-              <button
-                className="secondarybtn"
-                onClick={() => onImageClick("HallPatan")}
-              >
-                View Hall
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="halls hall-kritipur">
-          <img src="/images/HallKritipur.jpeg" alt="" className="hallimg" />
-          <div className="hallDes">
-            <h1>Hall Kritipur</h1>
-            <p>Capacity 850-1000</p>
-            <p>Events: Wedding. Anniversary. Engagement. Bartamanda.</p>
-            <div className="buttons">
-              <button
-                className="primarybtn"
-                onClick={() => {
-                  hallnameselected = "Hall Kritipur";
-                  handleSaveBook();
-                  onSelectClick();
-                }}
-              >
-                Select
-              </button>
-
-              <button
-                className="secondarybtn"
-                onClick={() => onImageClick("HallKritipur")}
-              >
-                View Hall
-              </button>
-            </div>
-          </div>
-        </div>
+          )
+        )}
       </div>
     </section>
   );

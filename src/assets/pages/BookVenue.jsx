@@ -45,19 +45,19 @@ const BookVenue = () => {
     <div>
       <Nav />
       <FixedButton />
-      {selectedHall === "HallKathmandu" ? (
+      {selectedHall === "Hall Kathmandu" ? (
         <HallKathmandu
           onBack={handleBackClick}
           onSelectClick={handleSelectClick}
         />
-      ) : selectedHall === "HallBhaktapur" ? (
+      ) : selectedHall === "Hall Bhaktapur" ? (
         <HallBhaktapur
           onBack={handleBackClick}
           onSelectClick={handleSelectClick}
         />
-      ) : selectedHall === "HallPatan" ? (
+      ) : selectedHall === "Hall Patan" ? (
         <HallPatan onBack={handleBackClick} onSelectClick={handleSelectClick} />
-      ) : selectedHall === "HallKritipur" ? (
+      ) : selectedHall === "Hall Kritipur" ? (
         <HallKritipur
           onBack={handleBackClick}
           onSelectClick={handleSelectClick}

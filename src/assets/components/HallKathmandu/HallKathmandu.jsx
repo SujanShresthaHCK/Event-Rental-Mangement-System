@@ -88,7 +88,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
               <img src="/images/HallKathmandu-2.jpg" alt="" />
             </div>
             <div className="photo">
-              <img src="/images/HallKathmandu.jpg" alt="" />
+              <img src="/images/Hall Kathmandu.jpg" alt="" />
             </div>
           </div>
           <div className="column">
