@@ -7,6 +7,8 @@ import Admin from "./assets/pages/Admin";
 import Hall from "./assets/pages/Hall";
 import Food from "./assets/pages/Food";
 import AdminDashboard from "./assets/components/AdminDashboard/AdminDashboard";
+import AdminLog from "./assets/pages/AdminLog";
+
 
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/bookvenue" element={<BookVenue />} />
+          <Route path="/admin" element={<AdminLog />} />
           <Route path="/dashboard" element={<Admin />} >
           <Route index element={<AdminDashboard />} />
           <Route path="foodCategories" element={<Food/>} />

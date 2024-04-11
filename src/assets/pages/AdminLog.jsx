@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import AdminHall from '../components/AdminHall/AdminHall';
+import Login from '../components/AdminLogin/Login';
 
-
-function Hall() {
+function AdminLog() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
   const OpenSidebar = () => {
@@ -11,9 +10,9 @@ function Hall() {
 
   return (
     <div>
-      <AdminHall/>
+      <Login/>
     </div>
   );
 }
 
-export default Hall;
+export default AdminLog;

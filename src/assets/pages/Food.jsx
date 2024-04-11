@@ -9,7 +9,7 @@ function Food() {
     };
   
     return (
-      <div className='grid-container'>
+      <div>
         <AdminFood />
       </div>
     );
