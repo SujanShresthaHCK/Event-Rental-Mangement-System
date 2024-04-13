@@ -8,6 +8,9 @@ import Hall from "./assets/pages/Hall";
 import Food from "./assets/pages/Food";
 import AdminDashboard from "./assets/components/AdminDashboard/AdminDashboard";
 import AdminLog from "./assets/pages/AdminLog";
+import Silver from "./assets/pages/Silver";
+import Gold from "./assets/pages/Gold";
+import Platinium from "./assets/pages/Platinium";
 
 
 
@@ -35,6 +38,9 @@ function App() {
           <Route path="hall" element={<Hall />} />
           </Route>
           <Route path="/food" element={<Food />} />
+          <Route path="/silver" element={<Silver/>} />
+          <Route path="/gold" element={<Gold />} />
+          <Route path="platinium" element={<Platinium />} />
         </Routes>
       </BrowserRouter>
     </>

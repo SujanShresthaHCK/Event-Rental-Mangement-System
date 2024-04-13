@@ -1,0 +1,52 @@
+/* Silvermenu.css */
+
+/* Container styles */
+.silver-menu-container {
+    margin: 20px;
+  }
+  
+  /* Table styles */
+  .table-container {
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* Add border to the table */
+  }
+  
+  /* Table header styles */
+  th {
+    background-color: #ffffff; /* Blue background */
+    color: rgb(3, 3, 3); /* White text */
+    padding: 10px;
+    text-align: left;
+  }
+  
+  /* Table row styles */
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+  }
+  
+  /* Table cell styles */
+  td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Add border to table cells */
+  }
+  
+  /* Hover effect for table rows */
+  tr:hover {
+    background-color: #ddd; /* Darker gray background on hover */
+  }
+  
+  /* Status cell styles */
+  .available {
+    color: green; /* Green text for available status */
+  }
+  
+  .not-available {
+    color: red; /* Red text for not available status */
+  }
+  
+  
