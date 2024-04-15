@@ -1,47 +1,57 @@
-// Platinummenu.jsx
 import React from 'react';
+import './Platiniummenu.css';
 
-
-function Platinummenu() {
-  // Dummy menu data for demonstration
-  const menuItems = [
-    { dish: 'Platinum Deluxe Steak', description: 'A prime cut of steak served with truffle mashed potatoes and grilled asparagus', available: true },
-    { dish: 'Platinum Seafood Tower', description: 'A tower of fresh seafood including lobster, crab legs, and shrimp, served with cocktail sauce', available: true },
-    { dish: 'Platinum Vegetarian Risotto', description: 'Creamy risotto made with Arborio rice, mushrooms, and Parmesan cheese, topped with truffle oil', available: true },
-    { dish: 'Platinum Chef\'s Special', description: 'A rotating selection of the chef\'s finest creations, made with premium ingredients', available: true },
-    { dish: 'Platinum Chocolate Fondue', description: 'Decadent chocolate fondue served with assorted fruits and marshmallows for dipping', available: true },
+function PlatinumMenu() {
+  const foodCategories = ['Appetizers', 'Main Course', 'Desserts', 'Snacks'];
+  const foodItems = [
+    'Escargot',
+  'Foie Gras',
+  'Filet Mignon',
+  'Lobster Bisque',
+  'Duck Confit',
+  'Caviar',
+  'Truffle Risotto',
+  'Crème Brûlée',
+  'Tarte Tatin',
+  'Oysters Rockefeller',
+  'Sushi Platter',
+  // Add more food items here
   ];
 
   return (
-    <div className="platinum-menu-container">
-      <h2>Platinum Menu</h2>
-      <div className="table-container">
-        <table className="platinum-menu-table">
-          <thead>
-            <tr>
-              <th>Dish</th>
-              <th>Description</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {menuItems.map((item, index) => (
-              <tr key={index}>
-                <td>{item.dish}</td>
-                <td>{item.description}</td>
-                <td className={item.available ? 'available' : 'not-available'}>
-                  {item.available ? 'Available' : 'Not Available'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="platinum-menu">
+      <div className="platinum-header">
+        <h2>Platinum Menu</h2>
+      </div>
+      <div className="food-categories">
+        <h3>Food Categories</h3>
+        <ol>
+          {foodCategories.map((category, index) => (
+            <li key={index}>
+              {index + 1}. {category}
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div className="food-items">
+        <h3>Food Items</h3>
+        <ol>
+          {foodItems.map((item, index) => (
+            <li key={index}>
+              <div className="item-box">
+                <span className="item-number">{index + 1}</span>
+                {item}
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
 }
 
-export default Platinummenu;
+export default PlatinumMenu;
+
 
 
 

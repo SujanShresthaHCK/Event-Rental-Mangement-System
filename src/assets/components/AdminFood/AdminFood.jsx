@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './AdminFood.css';
+import { useNavigate } from 'react-router-dom';
 
 // FoodCategories component
 const FoodCategories = ({ categories }) => (
   <div className="food-categories">
-    <h2>Food Categories</h2>
+    <h2>Food Packages</h2>
     <div className="category-container">
       {categories.map(category => (
         <div key={category.id} className="category">
@@ -19,30 +20,34 @@ const FoodCategories = ({ categories }) => (
 
 // FoodDishes component
 const FoodDishes = ({ dishes }) => {
-  const handleClick = (menuName) => {
-    // Handle click event here
-    console.log(`Clicked on menu: ${menuName}`);
-    // You can perform any action you want here
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="food-dishes">
-      {/* Ensure 'dishes' is an array before using 'map' */}
       {Array.isArray(dishes) && dishes.map(dish => (
         <div key={dish.id} className="dish">
-          {/* Display the dish image */}
           <div className="dish-info">
             <img src={dish.image} alt={dish.name} className="dish-image" />
           </div>
-          {/* Display the dish name and cost */}
           <div className="dish-details">
             <h4>{dish.name}</h4>
             <p className="dish-cost">{dish.cost}</p>
           </div>
-          {/* Display the menu button with the menu name */}
-          <button className="menu-button" onClick={() => handleClick(dish.menuName)}>
-            {dish.menuName}
-          </button>
+          {dish.name === 'Silver Package' && (
+            <button className="menu-button" onClick={() => navigate('/silver')}>
+              {dish.menuName}
+            </button>
+          )}
+          {dish.name === 'Gold package' && (
+            <button className="menu-button" onClick={() => navigate('/gold')}>
+              {dish.menuName}
+            </button>
+          )}
+          {dish.name === 'Platinum package' && (
+            <button className="menu-button" onClick={() => navigate('/platinium')}>
+              {dish.menuName}
+            </button>
+          )}
         </div>
       ))}
     </div>
@@ -56,17 +61,19 @@ const PackageTable = ({ packages }) => (
     <table>
       <thead>
         <tr>
-          <th>Package Id</th>
-          <th>Package Name</th>
-          <th>Price</th>
+          <th>Id</th>
+          <th>Food Id</th>
+          <th>category Id</th>
+          <th>package</th>
         </tr>
       </thead>
       <tbody>
         {packages.map(pkg => (
           <tr key={pkg.id} className="package-row">
             <td>{pkg.id}</td>
-            <td>{pkg.name}</td>
-            <td>{pkg.price}</td>
+            <td>{pkg.Food_Id}</td>
+            <td>{pkg.Category_Id}</td>
+            <td>{pkg.package_Id}</td>
           </tr>
         ))}
       </tbody>
@@ -79,49 +86,49 @@ const App = () => {
   const categories = [
     {
       id: 1,
-      name: 'Category 1',
+      name: 'Packages 1',
       dishes: [
         {
           id: 1,
           name: 'Silver Package',
           image: '/images/SilverPackage.jpg',
           cost: '$10000',
-          menuName: 'Silver Menu'
+          menuName: 'Silver package'
         }
       ]
     },
     {
       id: 2,
-      name: 'Category 2',
+      name: 'Packages 2',
       dishes: [
         {
           id: 2,
           name: 'Gold package',
           image: '/images/GoldPackage.jpg',
           cost: '$20000',
-          menuName: 'Gold Menu'
+          menuName: 'Gold Package'
         }
       ]
     },
     {
       id: 3,
-      name: 'Category 3',
+      name: 'Packages 3',
       dishes: [
         {
           id: 3,
           name: 'Platinum package',
           image: '/images/PlatiniumPackage.jpg',
           cost: '$20000',
-          menuName: 'Platinum Menu'
+          menuName: 'Platinum Package'
         }
       ]
     }
   ];
 
   const packages = [
-    { id: 1, name: 'Silver package', price: '$10000' },
-    { id: 2, name: 'Gold package', price: '$20000' },
-    { id: 3, name: 'Platinium Package', price: '$20000' },
+    { id: 1, Food_Id: 1, Category_Id:1, package_Id: 2 },
+    { id: 1, Food_Id: 2, Category_Id:5, package_Id: 2},
+    { id: 1, Food_Id: 4, Category_Id:1, package_Id: 2 },
   ];
 
   return (
@@ -133,5 +140,3 @@ const App = () => {
 };
 
 export default App;
-
-

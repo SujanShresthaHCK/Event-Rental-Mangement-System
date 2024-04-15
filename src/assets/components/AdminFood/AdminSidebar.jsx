@@ -1,4 +1,5 @@
 import React from 'react';
+import './AdminSidebar.css';
 import {BsFillGrid3X3GapFill, BsBuilding, BsBoxArrowRight, BsGrid1X2Fill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom"
 
@@ -20,14 +21,14 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </li>
         <li className='sidebar-list-item' onClick={() => navigate('foodCategories') }>
           <BsFillGrid3X3GapFill className='icon' />
-          Food categories
+          Food packages
         </li>
         <li className='sidebar-list-item' onClick={() => navigate('hall')}>
           <BsBuilding className='icon' />
           Hall
         </li>
       
-        <li className='sidebar-list-item' onClick={() => navigate('admin')}>
+        <li className='sidebar-list-item' onClick={() => navigate('/admin')}>
           <BsBoxArrowRight className='icon' />
           Logout
         </li>

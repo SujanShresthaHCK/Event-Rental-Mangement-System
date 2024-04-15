@@ -1,0 +1,61 @@
+/* GoldMenu.css */
+
+.gold-menu {
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.gold-header h2 {
+    font-size: 24px;
+}
+
+.food-categories {
+    margin-bottom: 20px;
+}
+
+.food-categories h3 {
+    font-size: 20px;
+}
+
+.food-categories ol {
+    list-style-type: none;
+    padding: 0;
+}
+
+.food-categories li {
+    margin-bottom: 5px;
+}
+
+.food-items {
+    margin-bottom: 20px;
+}
+
+.food-items h3 {
+    font-size: 20px;
+}
+
+.food-items ol {
+    list-style-type: none;
+    padding: 0;
+}
+
+.food-items li {
+    margin-bottom: 10px;
+}
+
+.item-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.item-number {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+  
+  

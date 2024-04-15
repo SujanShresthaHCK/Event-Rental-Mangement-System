@@ -1,6 +1,6 @@
 import React from 'react'
-import 
- {BsPersonCircle, BsSearch, BsJustify}
+import './AdminHeader.css';
+import {BsPersonCircle, BsSearch, BsJustify}
  from 'react-icons/bs'
 
 function AdminHeader({OpenSidebar}) {
