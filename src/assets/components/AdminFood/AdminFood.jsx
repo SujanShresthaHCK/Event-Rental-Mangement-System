@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 // FoodCategories component
 const FoodCategories = ({ categories }) => (
   <div className="food-categories">
-    <h2>Food Packages</h2>
+    <h2 className='food'>Food Packages</h2>
     <div className="category-container">
       {categories.map(category => (
         <div key={category.id} className="category">
-          <h3>{category.name}</h3>
-          {/* Pass the 'dishes' array to FoodDishes */}
+          <h3 className='black'>{category.name}</h3>
+
           <FoodDishes dishes={category.dishes} />
         </div>
       ))}
@@ -126,9 +126,9 @@ const App = () => {
   ];
 
   const packages = [
-    { id: 1, Food_Id: 1, Category_Id:1, package_Id: 2 },
-    { id: 1, Food_Id: 2, Category_Id:5, package_Id: 2},
-    { id: 1, Food_Id: 4, Category_Id:1, package_Id: 2 },
+    { id: 2, Food_Id: 1, Category_Id:1, package_Id: 2 },
+    { id: 3, Food_Id: 2, Category_Id:5, package_Id: 2},
+    { id: 4, Food_Id: 4, Category_Id:1, package_Id: 2 },
   ];
 
   return (

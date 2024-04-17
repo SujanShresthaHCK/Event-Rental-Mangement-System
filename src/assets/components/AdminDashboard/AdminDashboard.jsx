@@ -27,7 +27,7 @@ function AdminDashboard() {
         </div>
         <div className='card'>
           <div className='card-inner'>
-            <h3>Total CUSTOMERS</h3>
+            <h3>Total Customers</h3>
             <BsPeopleFill className='card_icon'/>
           </div>
           <h1>33</h1>

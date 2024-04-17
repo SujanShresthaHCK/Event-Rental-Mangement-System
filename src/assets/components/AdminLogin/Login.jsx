@@ -1,21 +1,19 @@
-// AdminLoginPage.jsx
+// Import the useNavigate hook from react-router-dom
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  
+  // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can add your login logic, such as sending the credentials to a server for authentication
-    // For now, let's just display the entered username and password
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Clear input fields after submission
-    setUsername('');
-    setPassword('');
+    navigate('/dashboard');
   };
 
   return (
@@ -50,4 +48,5 @@ const Login = () => {
 };
 
 export default Login;
+
 

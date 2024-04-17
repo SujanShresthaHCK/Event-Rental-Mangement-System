@@ -1,22 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Platiniummenu.css';
 
 function PlatinumMenu() {
   const foodCategories = ['Appetizers', 'Main Course', 'Desserts', 'Snacks'];
-  const foodItems = [
-    'Escargot',
-  'Foie Gras',
-  'Filet Mignon',
-  'Lobster Bisque',
-  'Duck Confit',
-  'Caviar',
-  'Truffle Risotto',
-  'Crème Brûlée',
-  'Tarte Tatin',
-  'Oysters Rockefeller',
-  'Sushi Platter',
-  // Add more food items here
+  const initialFoodItems = [
+    { category: 'Appetizers', name: 'Escargot' },
+    { category: 'Appetizers', name: 'Foie Gras' },
+    { category: 'Main Course', name: 'Filet Mignon' },
+    { category: 'Main Course', name: 'Lobster Bisque' },
+    { category: 'Main Course', name: 'Duck Confit' },
+    { category: 'Main Course', name: 'Caviar' },
+    { category: 'Main Course', name: 'Truffle Risotto' },
+    { category: 'Desserts', name: 'Crème Brûlée' },
+    { category: 'Desserts', name: 'Tarte Tatin' },
+    { category: 'Snacks', name: 'Oysters Rockefeller' },
+    { category: 'Snacks', name: 'Sushi Platter' },
+    // Add more food items here
   ];
+
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [foodItems, setFoodItems] = useState(initialFoodItems);
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleShowAllClick = () => {
+    setSelectedCategory('');
+  };
+
+  const handleAddFoodItem = () => {
+    const newItemName = prompt('Enter the name of the new food item:');
+    if (newItemName) {
+      const newItem = { category: selectedCategory, name: newItemName };
+      setFoodItems([...foodItems, newItem]);
+    }
+  };
+
+  const handleRemoveFoodItem = () => {
+    const itemName = prompt('Enter the name of the food item to remove:');
+    if (itemName) {
+      const updatedItems = foodItems.filter((item) => item.name !== itemName);
+      setFoodItems(updatedItems);
+    }
+  };
+
+  const handleEditFoodItem = () => {
+    const itemName = prompt('Enter the name of the food item to edit:');
+    if (itemName) {
+      const newName = prompt('Enter the new name for this food item:', itemName);
+      if (newName) {
+        const updatedItems = foodItems.map((item) => {
+          if (item.name === itemName) {
+            return { ...item, name: newName };
+          }
+          return item;
+        });
+        setFoodItems(updatedItems);
+      }
+    }
+  };
 
   return (
     <div className="platinum-menu">
@@ -24,33 +67,45 @@ function PlatinumMenu() {
         <h2>Platinum Menu</h2>
       </div>
       <div className="food-categories">
-        <h3>Food Categories</h3>
+        <h3 className='black'>Food Categories</h3>
         <ol>
           {foodCategories.map((category, index) => (
-            <li key={index}>
+            <li key={index} onClick={() => handleCategoryClick(category)}>
               {index + 1}. {category}
             </li>
           ))}
         </ol>
       </div>
       <div className="food-items">
-        <h3>Food Items</h3>
+        <h3 className='black'>Food Items</h3>
         <ol>
           {foodItems.map((item, index) => (
-            <li key={index}>
-              <div className="item-box">
-                <span className="item-number">{index + 1}</span>
-                {item}
-              </div>
-            </li>
+            (selectedCategory === '' || selectedCategory === item.category) && (
+              <li key={index}>
+                <div className="item-box">
+                  <span className="item-number">{index + 1}</span>
+                  {item.name}
+                </div>
+              </li>
+            )
           ))}
         </ol>
+        {selectedCategory !== '' && (
+          <button onClick={handleShowAllClick}>Show All</button>
+        )}
+        <div className="food-items-buttons">
+          <button onClick={handleAddFoodItem}>Add Food Item</button>
+          <button onClick={handleEditFoodItem}>Edit Food Item</button>
+          <button onClick={handleRemoveFoodItem}>Remove Food Item</button>
+        </div>
       </div>
     </div>
   );
 }
 
 export default PlatinumMenu;
+
+
 
 
 
