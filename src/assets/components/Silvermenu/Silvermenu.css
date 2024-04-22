@@ -1,52 +1,79 @@
+h2 {
+    color: black;
+}
+
+.black {
+    color: black;
+}
 /* Silvermenu.css */
 
-/* Container styles */
-.silver-menu-container {
+.silver-menu {
     margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
   }
   
-  /* Table styles */
-  .table-container {
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  .silver-header h2 {
+    font-size: 24px;
   }
   
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd; /* Add border to the table */
+  .food-categories {
+    margin-bottom: 20px;
   }
   
-  /* Table header styles */
-  th {
-    background-color: #ffffff; /* Blue background */
-    color: rgb(3, 3, 3); /* White text */
+  .food-categories h3 {
+    font-size: 20px;
+  }
+  
+  .food-categories ol {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .food-categories li {
+    margin-bottom: 5px;
+  }
+  
+  .food-items {
+    margin-bottom: 20px;
+  }
+  
+  .food-items h3 {
+    font-size: 20px;
+  }
+  
+  .food-items ol {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .food-items li {
+    margin-bottom: 10px;
+  }
+  
+  .item-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
     padding: 10px;
-    text-align: left;
+    margin-right: 10px;
   }
   
-  /* Table row styles */
-  tr:nth-child(even) {
-    background-color: #f2f2f2; /* Light gray background for even rows */
+  .item-number {
+    font-weight: bold;
+    margin-right: 10px;
   }
-  
-  /* Table cell styles */
-  td, th {
-    padding: 10px;
-    border: 1px solid #ddd; /* Add border to table cells */
-  }
-  
-  /* Hover effect for table rows */
-  tr:hover {
-    background-color: #ddd; /* Darker gray background on hover */
-  }
-  
-  /* Status cell styles */
-  .available {
-    color: green; /* Green text for available status */
-  }
-  
-  .not-available {
-    color: red; /* Red text for not available status */
-  }
-  
+
+  /* Silvermenu.css */
+
+/* Add cursor pointer for the food categories list items */
+.food-categories ol li {
+  cursor: pointer;
+}
+
+/* Change the style when hovering over the food categories list items */
+.food-categories ol li:hover {
+  background-color: #f0f0f0;
+}
+
   
