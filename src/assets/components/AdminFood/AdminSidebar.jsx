@@ -27,7 +27,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Hall
         </li>
       
-        <li className='sidebar-list-item' onClick={() => navigate('admin')}>
+        <li className='sidebar-list-item' onClick={() => navigate('/admin')}>
           <BsBoxArrowRight className='icon' />
           Logout
         </li>

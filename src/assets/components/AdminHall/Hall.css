@@ -153,6 +153,15 @@
   background-color: #f2f2f2;
 }
 
+.category-buttons {
+  display: flex; /* Change the display to flex */
+  justify-content: space-around; /* Distribute the buttons evenly along the container */
+  margin-top: 20px; /* Add some top margin for spacing */
+}
+
+.category-button {
+  /* Add any additional styling for the buttons here */
+}
 
 
   

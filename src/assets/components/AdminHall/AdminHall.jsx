@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './Hall.css';
+import { FiCircle } from "react-icons/fi";
 
 const AdminHall = () => {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [isRemovePopupOpen, setIsRemovePopupOpen] = useState(false);
   const [hallIdToRemove, setHallIdToRemove] = useState('');
-
+  const [isKathmanduPopupOpen, setIsKathmanduPopupOpen] = useState(false); // New state for Kathmandu popup
+  const [isBhaktapurPopupOpen, setIsBhaktapurPopupOpen] = useState(false); // New state for Bhaktapur popup
 
   const openAddPopup = () => {
     setIsAddPopupOpen(true);
@@ -40,6 +42,21 @@ const AdminHall = () => {
     closeRemovePopup();
   };
 
+  const handleKathmanduPopup = () => {
+    setIsKathmanduPopupOpen(true);
+  };
+
+  const handleBhaktapurPopup = () => {
+    setIsKathmanduPopupOpen(true);
+  };
+  
+  const closeKathmanduPopup = () => {
+    setIsKathmanduPopupOpen(false);
+  };
+
+  const closeBhaktapurPopup = () => {
+    setIsBhaktapurPopupOpen(false);
+  };
 
   return (
     <section className="hall-wrapper">
@@ -54,7 +71,7 @@ const AdminHall = () => {
           </tr>
         </thead>
         <tbody>
-        <tr>
+          <tr>
             <td>1</td>
             <td>Hall Kathmandu</td>
             <td>600 - 1000</td>
@@ -80,98 +97,58 @@ const AdminHall = () => {
           </tr>
         </tbody>
       </table>
-      
+
       <div className="hall-actions">
         <button className="button add-button" onClick={openAddPopup}>Add</button>
         <button className="button edit-button" onClick={openEditPopup}>Edit</button>
         <button className="button remove-button" onClick={openRemovePopup}>Remove</button>
-
-
       </div>
-      <h2 className="hall-title11">Booking halls</h2>
-    <table className="hall-status-table">
-      <thead>
-        <tr>
-          <th>Hall ID</th>
-          <th>Hall Name</th>
-          <th>Capacity</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* Add your rows with hall data and status here */}
-      </tbody>
-    </table>
-      {isAddPopupOpen && (
-        <div className="popup popup-add">
+
+      <h2 className="hall-title11">Event Category</h2>
+
+      <div className="category-buttons">
+        <button className="button category-button" onClick={handleKathmanduPopup}>
+          Kathmandu
+        </button>
+        <button className="button category-button" onClick={() => console.log('Category clicked: Bhaktapur')}>
+          Bhaktapur
+        </button>
+        <button className="button category-button" onClick={() => console.log('Category clicked: Kritipur')}>
+          Kritipur
+        </button>
+        <button className="button category-button" onClick={() => console.log('Category clicked: Patan')}>
+          Patan
+        </button>
+      </div>
+
+      {/* Kathmandu Popup */}
+      {isKathmanduPopupOpen && (
+        <div className="popup">
           <div className="popup-content">
-            <span className="close-button" onClick={closeAddPopup}>✕</span>
-            <h2>Add New Hall</h2>
-            <form>
-              <label htmlFor="hallId">Hall ID:</label>
-              <input type="text" id="hallId" name="hallId" />
+            <span className="close-button" onClick={closeKathmanduPopup}>✕</span>
+            <h2>Hall Kathmandu Details</h2>
+            <tr>Wedding </tr>
+            <tr>Bratabanda </tr>
 
-              <label htmlFor="hallName">Hall Name:</label>
-              <input type="text" id="hallName" name="hallName" />
-
-              <label htmlFor="capacity">Capacity:</label>
-              <input type="text" id="capacity" name="capacity" />
-
-              <label htmlFor="status">Status:</label>
-              <input type="text" id="status" name="status" />
-
-              <button type="submit" className="button submit-button">Add</button>
-            </form>
+            {/* Add details of Kathmandu category here */}
           </div>
         </div>
       )}
-      {isEditPopupOpen && (
-        <div className="popup popup-edit">
+
+      {/* Bhaktapur Popup */}
+      {isBhaktapurPopupOpen && (
+        <div className="popup">
           <div className="popup-content">
-            <span className="close-button" onClick={closeEditPopup}>✕</span>
-            <h2>Edit Hall</h2>
-            <form>
-            <label htmlFor="hallId">Hall ID:</label>
-              <input type="text" id="hallId" name="hallId" />
-
-              <label htmlFor="hallName">Hall Name:</label>
-              <input type="text" id="hallName" name="hallName" />
-
-              <label htmlFor="capacity">Capacity:</label>
-              <input type="text" id="capacity" name="capacity" />
-
-              <label htmlFor="status">Status:</label>
-              <input type="text" id="status" name="status" />
-
-              <button type="submit" className="button submit-button">Save</button>
-            </form>
+            <span className="close-button" onClick={closeBhaktapurPopup}>✕</span>
+            <h2>Hall Bhaktapur Details</h2>
+            {/* Add details of Bhaktapur category here */}
           </div>
         </div>
       )}
-      {isRemovePopupOpen && (
-        // Popup for removing a hall
-        <div className="popup popup-remove">
-          <div className="popup-content">
-            <span className="close-button" onClick={closeRemovePopup}>✕</span>
-            <h2>Remove Hall</h2>
-            <form onSubmit={handleRemoveHall}>
-              <label htmlFor="hallIdToRemove">Hall ID:</label>
-              <input
-                type="text"
-                id="hallIdToRemove"
-                name="hallIdToRemove"
-                value={hallIdToRemove}
-                onChange={(e) => setHallIdToRemove(e.target.value)}
-                required
-              />
-              <button type="submit" className="button submit-button">Confirm</button>
-            </form>
-          </div>
-        </div>
-      )}
+
+      {/* Add popups and other components */}
     </section>
   );
 };
 
 export default AdminHall;
-
-

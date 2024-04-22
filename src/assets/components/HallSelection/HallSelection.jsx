@@ -57,6 +57,8 @@ const HallSelection = ({ onImageClick }) => {
             <h1>Hall Kritipur</h1>
             <p>Capacity 100 - 250</p>
           </div>
+
+          
         </div>
       </div>
     </section>
