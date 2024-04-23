@@ -22,7 +22,6 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
       // Filter halls that are present in the database and have a name
       const hallsInDatabase = halls.filter((hall) => hall.name);
 
-      // Fetch bookings for halls in the database with eventStatus as false
       const hallsWithBookings = await Promise.all(
         hallsInDatabase.map(async (hall) => {
           try {
