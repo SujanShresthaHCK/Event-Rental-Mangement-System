@@ -1,0 +1,11 @@
+.first {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.first h1 {
+  font-weight: 500;
+  cursor: pointer;
+}

@@ -33,7 +33,7 @@ const Occasion = () => {
             </button>
           </Link> */}
 
-          <h3>FOLLOW US</h3>
+          {/* <h3>FOLLOW US</h3>
           <span>
             <FaFacebook
               style={{
@@ -49,7 +49,7 @@ const Occasion = () => {
                 marginTop: "10px",
               }}
             />{" "}
-          </span>
+          </span> */}
         </div>
       </div>
     </section>

@@ -1,26 +1,51 @@
-import React from "react";
-import { useSnackbar } from "notistack";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSnackbar } from "notistack";
 import "./Buffet.css";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import GoldPackage from "../GoldPackage/GoldPackage";
+import SilverPackge from "../SliverPackage/SilverPackage";
+import PlatinumPackage from "../PlatinumPackage/PlatinumPackage";
 
 const Buffet = ({ onBack, onBuffetSelectClick }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const [buffetData, setBuffetData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedHall, setSelectedHall] = useState("Gold Package");
 
-  const handleSaveBook = (buffetType) => {
+  useEffect(() => {
+    const fetchBuffetData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("http://localhost:9000/packages");
+        setBuffetData(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        enqueueSnackbar("Error retrieving buffet data", { variant: "error" });
+        console.error("Error fetching buffet data:", error);
+        setLoading(false);
+      }
+    };
+    fetchBuffetData();
+  }, [enqueueSnackbar]);
+
+  const handleSaveBook = (buffetType, buffetPrice) => {
     axios
       .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
       .then((response) => {
-        const latestData = response.data.data.pop(); // Get the last element of the data array
-        const latestId = latestData._id; // Get the _id of the latest data
+        const latestData = response.data.data.pop();
+        const latestId = latestData._id;
+        let fPrice =
+          latestData.price + buffetPrice * latestData.estimatedGuests;
         axios
           .put(`http://localhost:9000/books/${latestId}`, {
             buffet: buffetType,
+            price: fPrice,
           })
           .then(() => {
             enqueueSnackbar("Buffet package selected successfully", {
               variant: "success",
             });
-            // Call the onBuffetSelectClick function after selecting the buffet package
             onBuffetSelectClick();
           })
           .catch((error) => {
@@ -38,87 +63,75 @@ const Buffet = ({ onBack, onBuffetSelectClick }) => {
 
   return (
     <section className="buffet-wrapper">
-      <button onClick={onBack} className="backbtn">
-        ⬅ Back
-      </button>
-      <div className="buffet-container">
-        <h1
-          style={{ color: "#846330", fontWeight: "400", marginBottom: "80px" }}
+      <div className="left-sidebuffet">
+        <button
+          onClick={onBack}
+          className="backbtn"
+          style={{ fontSize: "20px", paddingLeft: "60px" }}
         >
-          Buffet Selection
-        </h1>
-        <div className="buffetcontents">
-          <div className="buffetpackages">
-            <div className="goldpackage" style={{ display: "flex" }}>
-              <img
-                src="images/GoldPackage.jpg"
-                alt=""
-                className="buffetimages"
-              />
-              <div className="buffet-des">
-                <h1>Gold Package</h1>
-                <p>Per Person Rs. 3400</p>
-                <p>
-                  Items: Soup [3], Starters [11], Main Course [15], Dessert [5]
-                </p>
-                <button
-                  className="select"
-                  onClick={() => {
-                    handleSaveBook("Gold Package");
-                  }}
-                >
-                  Select
-                </button>
+          <IoMdArrowRoundBack /> Back
+        </button>
+        <div className="buffet-container">
+          <h1
+            style={{
+              color: "#846330",
+              fontWeight: "500",
+              marginBottom: "40px",
+            }}
+          >
+            Hall Selection / Buffet Selection
+          </h1>
+          <div className="buffetcontents">
+            {loading ? (
+              <p>Loading buffet data...</p>
+            ) : (
+              <div className="buffetpackages">
+                {buffetData.map((buffet, index) => (
+                  <div
+                    key={index}
+                    className="buffetpackage"
+                    style={{ display: "flex" }}
+                  >
+                    <img
+                      src={`/images/${buffet.packageName}.jpg`}
+                      alt=""
+                      className="buffetimages"
+                    />
+                    <div className="buffet-des">
+                      <h1>{buffet.packageName}</h1>
+                      <p>Per Person Rs. {buffet.pricePerPlate}</p>
+                      {/* <p>Items: {buffet.items}</p> */}
+                      <div className="buttons">
+                        <button
+                          className="select"
+                          onClick={() => {
+                            handleSaveBook(
+                              buffet.packageName,
+                              buffet.pricePerPlate
+                            );
+                          }}
+                        >
+                          Select
+                        </button>
+                        <button
+                          className="secondarybtn"
+                          onClick={() => setSelectedHall(buffet.packageName)}
+                        >
+                          View Menu
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-
-            <div className="patiniumpackage" style={{ display: "flex" }}>
-              <img
-                src="images/SilverPackage.jpg"
-                alt=""
-                className="buffetimages"
-              />
-              <div className="buffet-des">
-                <h1>Platinum Package</h1>
-                <p>Per Person Rs. 2600</p>
-                <p>
-                  Items: Soup [1], Starters [7], Main Course [10], Dessert [3]
-                </p>
-                <button
-                  className="select"
-                  onClick={() => {
-                    handleSaveBook("Platinum Package");
-                  }}
-                >
-                  Select
-                </button>
-              </div>
-            </div>
-            <div className="silverpackage" style={{ display: "flex" }}>
-              <img
-                src="/images/PlatiniumPackage.jpg"
-                alt=""
-                className="buffetimages"
-              />
-              <div className="buffet-des">
-                <h1>Silver Package</h1>
-                <p>Per Person Rs. 2200</p>
-                <p>Soup [1], Starters [5], Main Course [8], Dessert [2]</p>
-                <button
-                  className="select"
-                  onClick={() => {
-                    handleSaveBook("Silver Package");
-                  }}
-                >
-                  Select
-                </button>
-              </div>
-            </div>
+            )}
           </div>
-          {/* <div className="menuimg">
-            <img src="images/menu.png" alt="" />
-          </div> */}
         </div>
+      </div>
+      <div className="right-sidebuffet">
+        {selectedHall === "Gold Package" && <GoldPackage />}
+        {selectedHall === "Silver Package" && <SilverPackge />}
+        {selectedHall === "Platinum Package" && <PlatinumPackage />}
       </div>
     </section>
   );

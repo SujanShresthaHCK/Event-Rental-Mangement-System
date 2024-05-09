@@ -5,6 +5,7 @@ import CheckAvailability from "../components/CheckAvailability/CheckAvailability
 import { Footer } from "../components/Footer/Footer";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import HallHomePage from "../components/HallHomePage/HallHomePage";
 
 const Home = () => {
   // const [informations, setInformations] = useState([]);
@@ -29,6 +30,7 @@ const Home = () => {
       <CheckAvailability />
       <About />
       <Occasion />
+      <HallHomePage />
       <Footer />
     </div>
   );

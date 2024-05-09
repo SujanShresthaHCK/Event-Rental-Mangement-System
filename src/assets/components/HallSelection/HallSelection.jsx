@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import "./HallSelection.css";
+import HallKathmandu from "../HallKathmandu/HallKathmandu";
+import HallBhaktapur from "../HallBhaktapur/HallBhaktapur";
+import HallPatan from "../HallPatan/HallPatan";
+import HallKritipur from "../HallKritipur/HallKritipur";
+import { RiHomeFill } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
 
 const HallSelection = ({ onSelectClick, onImageClick }) => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
+  const [selectedHall, setSelectedHall] = useState("Hall Kathmandu");
   const [hallData, setHallData] = useState([]);
   let hallNameSelected;
+  let hallprice;
 
   const fetchHallData = async () => {
     try {
@@ -63,9 +70,24 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
         setLoading(false);
         const latestData = response.data.data.pop();
         const latestId = latestData._id;
+        const userdays = latestData.days;
+        const latestStartDate = latestData.startDate;
+        const latestEndDate = latestData.endDate;
+        console.log(userdays);
         enqueueSnackbar("Latest data retrieved. Check console.", {
           variant: "info",
         });
+
+        // Determine the value of hallprice based on userdays
+        if (userdays === "Single-Day") {
+          hallprice = hallData.find(
+            (hall) => hall.name === hallNameSelected
+          ).priceShift;
+        } else {
+          hallprice =
+            hallData.find((hall) => hall.name === hallNameSelected).priceDay *
+            getNumberOfDays(latestStartDate, latestEndDate);
+        }
 
         updateDocument(latestId);
       })
@@ -79,6 +101,7 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
   const updateDocument = (id) => {
     const data = {
       hallName: hallNameSelected,
+      price: hallprice,
     };
     axios
       .put(`http://localhost:9000/books/${id}`, data)
@@ -93,80 +116,120 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
       });
   };
 
+  const getNumberOfDays = (startDate, endDate) => {
+    const oneDay = 24 * 60 * 60 * 1000;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffDays = Math.round(Math.abs((start - end) / oneDay)) + 1;
+    return diffDays;
+  };
+
   useEffect(() => {
     fetchHallData();
   }, []);
 
   return (
     <section className="hall-wrapper">
-      <h1
-        style={{
-          paddingLeft: "60px",
-          paddingTop: "70px",
-          paddingBottom: "80px",
-          color: "#846330",
-          fontWeight: "500",
-          fontSize: "25px",
-        }}
-      >
-        Hall Selection
-      </h1>
-      <div className="hall-container">
-        {hallData.map((hall, index) => (
-          <div
-            key={index}
-            className={`halls hall-${hall.name
-              .toLowerCase()
-              .replace(/\s+/g, "-")}`}
-          >
-            <img
-              src={`/images/${hall.name}.jpg`}
-              alt={hall.name}
-              className="hallimg"
-            />
-            <div className="hallDes">
-              <h1>{hall.name}</h1>
-              <p>
-                Capacity: {hall.minCapacity} - {hall.maxCapacity}
-                <br />
-                {hall.bookings &&
-                  hall.bookings
-                    .filter(
-                      (booking) =>
-                        booking.hallName === hall.name && !booking.eventStatus
-                    )
-                    .map((booking, idx) => (
-                      <span key={idx} style={{ color: "red" }}>
-                        Hall will be unavailable for the date:{" "}
-                        {new Date(booking.bookDate).toLocaleDateString()}{" "}
-                        {/* Display booked date */}
-                        <br />
-                      </span>
-                    ))}
-              </p>
+      <div className="right-side">
+        <Link to="/home" style={{ textDecoration: "none" }}>
+          <button className="home-btn">
+            <RiHomeFill /> Home
+          </button>
+        </Link>
 
-              <div className="buttons">
-                <button
-                  className="primarybtn"
-                  onClick={() => {
-                    hallNameSelected = hall.name;
-                    handleSaveBook();
-                    onSelectClick();
-                  }}
-                >
-                  Select
-                </button>
+        <h1
+          style={{
+            paddingLeft: "60px",
+            paddingTop: "20px",
+            paddingBottom: "40px",
+            color: "#846330",
+            fontWeight: "500",
+            fontSize: "25px",
+          }}
+        >
+          Hall Selection
+        </h1>
+        <div className="hall-container">
+          {hallData.map((hall, index) => (
+            <div
+              key={index}
+              className={`halls hall-${hall.name
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+            >
+              <img
+                src={`/images/${hall.name}.jpg`}
+                alt={hall.name}
+                className="hallimg"
+              />
+              <div className="hallDes">
+                <h1>{hall.name}</h1>
+                <p>
+                  Capacity: {hall.minCapacity} - {hall.maxCapacity}
+                  <br />
+                  Price per Shift: {hall.priceShift}
+                  <br />
+                  Price per Day: {hall.priceDay}
+                  <br />
+                  {hall.bookings &&
+                    hall.bookings
+                      .filter(
+                        (booking) =>
+                          booking.hallName === hall.name && !booking.eventStatus
+                      )
+                      .map((booking, idx) => {
+                        return (
+                          <span key={idx} style={{ color: "red" }}>
+                            Hall will be unavailable for the date:{" "}
+                            {booking.days === "Single-Day" ? (
+                              new Date(booking.bookDate).toLocaleDateString()
+                            ) : (
+                              <>
+                                <br />
+                                {new Date(
+                                  booking.startDate
+                                ).toLocaleDateString()}{" "}
+                                to{" "}
+                                {new Date(booking.endDate).toLocaleDateString()}
+                              </>
+                            )}
+                            <br />
+                          </span>
+                        );
+                      })}
+                </p>
 
-                <button
-                  className="secondarybtn"
-                  onClick={() => onImageClick(hall.name)}
-                >
-                  View Hall
-                </button>
+                <div className="buttons">
+                  <button
+                    className="primarybtn"
+                    onClick={() => {
+                      hallNameSelected = hall.name;
+                      handleSaveBook();
+                      onSelectClick();
+                    }}
+                  >
+                    Select
+                  </button>
+
+                  <button
+                    className="secondarybtn"
+                    onClick={() => setSelectedHall(hall.name)}
+                  >
+                    View Hall
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+      <div className="left-side">
+        <div className="hall-kathmandu">
+          {selectedHall === "Hall Kathmandu" && <HallKathmandu />}
+          {selectedHall === "Hall Bhaktapur" && <HallBhaktapur />}
+          {selectedHall === "Hall Patan" && <HallPatan />}
+          {selectedHall === "Hall Kritipur" && <HallKritipur />}
+        </div>
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ const Nav = () => {
         <Link to="/home">
           <img src="/images/logo.png" alt="" />
         </Link>
-        <div className="line"></div>
+        {/* <div className="line"></div> */}
         <div className="bookline"></div>
         <h1
           style={{
@@ -17,9 +17,7 @@ const Nav = () => {
             fontSize: "40px",
             textAlign: "center",
             color: "#846330",
-            zIndex: "2",
-            marginTop: "-11vh",
-            marginBottom: "50px",
+            textDecoration: "underline",
           }}
         >
           Book a Venue

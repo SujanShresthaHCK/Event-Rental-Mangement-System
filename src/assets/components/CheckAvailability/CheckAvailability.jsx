@@ -23,7 +23,7 @@ const CheckAvailability = () => {
   const [endDatedb, setEndDatedb] = useState("");
   const [loading, setLoading] = useState(false);
   const [guestsExceedLimit, setGuestsExceedLimit] = useState(false);
-  const [allFieldsEntered, setAllFieldsEntered] = useState(false); // Track if all input fields are entered
+  const [allFieldsEntered, setAllFieldsEntered] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,7 +32,6 @@ const CheckAvailability = () => {
   }, []);
 
   useEffect(() => {
-    // Check if all input fields are entered
     const areAllFieldsEntered =
       estimatedGuests !== "" &&
       eventType !== "" &&

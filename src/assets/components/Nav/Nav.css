@@ -5,8 +5,8 @@
 }
 
 .nav-container img {
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
 }
 
 .nav-container h1 {
@@ -16,17 +16,12 @@
   text-decoration: none;
 }
 
-.line {
-  margin-top: 20px;
+/* .line {
   height: 2px;
   background: black;
   width: 1800px;
-}
+} */
 
-.bookline {
-  margin: 20px 0px;
-  height: 12vh;
-  background: #f9e4bc;
+/* .bookline {
   width: 100vw;
-  z-index: 1;
-}
+} */

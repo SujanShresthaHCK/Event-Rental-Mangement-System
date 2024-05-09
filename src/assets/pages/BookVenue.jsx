@@ -44,7 +44,7 @@ const BookVenue = () => {
   return (
     <div>
       <Nav />
-      <FixedButton />
+
       {selectedHall === "Hall Kathmandu" ? (
         <HallKathmandu
           onBack={handleBackClick}

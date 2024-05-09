@@ -65,9 +65,9 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
 
   return (
     <div className="container">
-      <button className="backbtn" onClick={onBack}>
+      {/* <button className="backbtn" onClick={onBack}>
         ⬅ Back
-      </button>
+      </button> */}
       <div className="kathmanducontainer">
         <h1
           style={{
@@ -78,9 +78,9 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
         >
           Hall Kathmandu
         </h1>
-        <p style={{ color: "gray" }}>Capacity 850-1000</p>
+        <p style={{ color: "gray" }}>Capacity 600-1100</p>
         <p style={{ paddingBottom: "20px", color: "gray" }}>
-          Events: Wedding. Anniversary. Engagement. Bartamanda.
+          Events: Wedding. Anniversary. Engagement. Bartamanda. Reception.
         </p>
         <div className="kathmandu-wrapper">
           <div className="column">
@@ -97,7 +97,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
             </div>
           </div>
         </div>
-        <button
+        {/* <button
           className="selectbtn"
           onClick={() => {
             onSelectClick();
@@ -105,7 +105,7 @@ const HallKathmandu = ({ onSelectClick, onBack }) => {
           }}
         >
           Select Hall
-        </button>
+        </button> */}
       </div>
     </div>
   );
