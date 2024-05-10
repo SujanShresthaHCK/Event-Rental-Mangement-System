@@ -14,6 +14,8 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [selectedHall, setSelectedHall] = useState("Hall Kathmandu");
   const [hallData, setHallData] = useState([]);
+  const [showAllHalls, setShowAllHalls] = useState(false);
+  const [showAllText, setShowAllText] = useState("Show All Halls"); // Define showAllText state
   let hallNameSelected;
   let hallprice;
 
@@ -62,6 +64,24 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
     }
   };
 
+  const filteredHall = () => {
+    setLoading(true);
+    axios
+      .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
+      .then((response) => {
+        setLoading(false);
+        const latestData = response.data.data.pop();
+        const estimatedGuests = latestData.estimatedGuests;
+
+        // Set showAllHalls state variable based on estimatedGuests value
+        setShowAllHalls(estimatedGuests <= 600);
+        setShowAllText(showAllHalls ? "Show Less" : "Show All Halls"); // Update showAllText
+        enqueueSnackbar("Latest data retrieved. Check console.", {
+          variant: "info",
+        });
+      });
+  };
+
   const handleSaveBook = () => {
     setLoading(true);
     axios
@@ -73,7 +93,7 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
         const userdays = latestData.days;
         const latestStartDate = latestData.startDate;
         const latestEndDate = latestData.endDate;
-        console.log(userdays);
+        const estimatedguests = latestData.estimatedGuests;
         enqueueSnackbar("Latest data retrieved. Check console.", {
           variant: "info",
         });
@@ -126,6 +146,7 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
 
   useEffect(() => {
     fetchHallData();
+    filteredHall();
   }, []);
 
   return (
@@ -150,77 +171,105 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
           Hall Selection
         </h1>
         <div className="hall-container">
-          {hallData.map((hall, index) => (
-            <div
-              key={index}
-              className={`halls hall-${hall.name
-                .toLowerCase()
-                .replace(/\s+/g, "-")}`}
+          {/* Display "Show All" button only if not all halls are shown */}
+          {!showAllHalls && (
+            <h1
+              onClick={() => setShowAllHalls(!showAllHalls)}
+              style={{
+                cursor: "pointer",
+                color: "black",
+                fontWeight: "500",
+                fontSize: "18px",
+                textDecoration: "underline",
+                paddingBottom: "10px",
+              }}
             >
-              <img
-                src={`/images/${hall.name}.jpg`}
-                alt={hall.name}
-                className="hallimg"
-              />
-              <div className="hallDes">
-                <h1>{hall.name}</h1>
-                <p>
-                  Capacity: {hall.minCapacity} - {hall.maxCapacity}
-                  <br />
-                  Price per Shift: {hall.priceShift}
-                  <br />
-                  Price per Day: {hall.priceDay}
-                  <br />
-                  {hall.bookings &&
-                    hall.bookings
-                      .filter(
-                        (booking) =>
-                          booking.hallName === hall.name && !booking.eventStatus
-                      )
-                      .map((booking, idx) => {
-                        return (
-                          <span key={idx} style={{ color: "red" }}>
-                            Hall will be unavailable for the date:{" "}
-                            {booking.days === "Single-Day" ? (
-                              new Date(booking.bookDate).toLocaleDateString()
-                            ) : (
-                              <>
+              {showAllText}
+            </h1>
+          )}
+          {hallData.map((hall, index) => {
+            if (
+              showAllHalls ||
+              (hall.name !== "Hall Patan" && hall.name !== "Hall Kritipur")
+            ) {
+              return (
+                <div
+                  key={index}
+                  className={`halls hall-${hall.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                >
+                  <img
+                    src={`/images/${hall.name}.jpg`}
+                    alt={hall.name}
+                    className="hallimg"
+                  />
+                  <div className="hallDes">
+                    <h1>{hall.name}</h1>
+                    <p>
+                      Capacity: {hall.minCapacity} - {hall.maxCapacity}
+                      <br />
+                      Price per Shift: {hall.priceShift}
+                      <br />
+                      Price per Day: {hall.priceDay}
+                      <br />
+                      {hall.bookings &&
+                        hall.bookings
+                          .filter(
+                            (booking) =>
+                              booking.hallName === hall.name &&
+                              !booking.eventStatus
+                          )
+                          .map((booking, idx) => {
+                            return (
+                              <span key={idx} style={{ color: "red" }}>
+                                Hall will be unavailable for the date:{" "}
+                                {booking.days === "Single-Day" ? (
+                                  new Date(
+                                    booking.bookDate
+                                  ).toLocaleDateString()
+                                ) : (
+                                  <>
+                                    <br />
+                                    {new Date(
+                                      booking.startDate
+                                    ).toLocaleDateString()}{" "}
+                                    to{" "}
+                                    {new Date(
+                                      booking.endDate
+                                    ).toLocaleDateString()}
+                                  </>
+                                )}
                                 <br />
-                                {new Date(
-                                  booking.startDate
-                                ).toLocaleDateString()}{" "}
-                                to{" "}
-                                {new Date(booking.endDate).toLocaleDateString()}
-                              </>
-                            )}
-                            <br />
-                          </span>
-                        );
-                      })}
-                </p>
-
-                <div className="buttons">
-                  <button
-                    className="primarybtn"
-                    onClick={() => {
-                      hallNameSelected = hall.name;
-                      handleSaveBook();
-                      onSelectClick();
-                    }}
-                  >
-                    Select
-                  </button>
-
-                  <button
-                    className="secondarybtn"
-                    onClick={() => setSelectedHall(hall.name)}
-                  >
-                    View Hall
-                  </button>
+                              </span>
+                            );
+                          })}
+                    </p>
+                    <div className="buttons">
+                      <button
+                        className="primarybtn"
+                        onClick={() => {
+                          hallNameSelected = hall.name;
+                          handleSaveBook();
+                          onSelectClick();
+                        }}
+                      >
+                        Select
+                      </button>
+                      <button
+                        className="secondarybtn"
+                        onClick={() => setSelectedHall(hall.name)}
+                      >
+                        View Hall
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
       </div>
       <div className="left-side">

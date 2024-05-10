@@ -28,7 +28,7 @@
   text-transform: uppercase;
   border: none;
   border-radius: 5px;
-  background-color: black;
+  background-color: #337636;
   color: #fff;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -36,7 +36,7 @@
 }
 
 .checkoutbtn:hover {
-  background-color: #846330;
+  background-color: #6fc754;
   transform: translateY(-2px);
 }
 

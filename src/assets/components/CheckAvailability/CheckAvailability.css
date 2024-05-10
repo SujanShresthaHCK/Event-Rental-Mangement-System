@@ -29,7 +29,7 @@
 }
 
 .check-button {
-  background: black;
+  background: #337636;
   color: white;
   margin-top: 25px;
   padding: 10px 40px;
@@ -43,8 +43,8 @@
 }
 
 .check-button:hover {
-  background-color: #846330;
-  border-color: #846330;
+  background-color: #6fc754;
+  border-color: #6fc754;
   color: white;
   transform: translateY(-2px);
 }
