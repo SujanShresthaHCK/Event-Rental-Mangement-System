@@ -4,7 +4,10 @@ import "./App.css";
 import Home from "./assets/pages/Home";
 import BookVenue from "./assets/pages/BookVenue";
 import Admin from "./assets/pages/Admin";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 00084fa (admin change sujan side)
 
 function App() {
   return (
@@ -15,7 +18,10 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/bookvenue" element={<BookVenue />} />
           <Route path="/admin" element={<Admin />} />
+<<<<<<< HEAD
           
+=======
+>>>>>>> 00084fa (admin change sujan side)
         </Routes>
       </BrowserRouter>
     </>
