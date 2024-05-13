@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import DashboardBody from "../DashBoardBody/DashboardBody";
 import DashboardCustomer from "../DashboardCustomer/DashboardCustomer";
 import BanquetHalls from "../BanquetHalls/BanquetHalls";
+import Package from "../FoodPackage/Package";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -112,7 +113,10 @@ const Dashboard = () => {
               <MdMeetingRoom /> Banquet Halls
             </button>
             <br />
-            <button className="items">
+            <button
+             className="items"
+             onClick={() => setselectedDashboard("Package")}
+            >
               <LuMenuSquare /> Package Menu
             </button>
             <br />
@@ -125,6 +129,7 @@ const Dashboard = () => {
         {selectedDashboard === "DashboardBody" && <DashboardBody />}
         {selectedDashboard === "DashboardCustomer" && <DashboardCustomer />}
         {selectedDashboard === "BanquetHalls" && <BanquetHalls />}
+        {selectedDashboard == "Package" && <Package />}
       </div>
     </section>
   );
