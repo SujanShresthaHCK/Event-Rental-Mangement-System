@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
+import CheckAvailability from "../CheckAvailability/CheckAvailability";
+
 import "./Hero.css";
 
 const Hero = () => {
@@ -61,6 +63,7 @@ const Hero = () => {
 
         {/* right-side */}
         <div className="hero-right">
+          <CheckAvailability />
           {/* <div className="hero-rightcontainer">
             <form action="">
               <h1

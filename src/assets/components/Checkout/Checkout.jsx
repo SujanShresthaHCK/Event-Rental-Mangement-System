@@ -206,28 +206,32 @@ const Checkout = ({ onBack }) => {
           Hall Selection / Buffect Selection / Book Venue
         </h1>
         <div className="personalinfo">
-          <form action="" className="personalinfoForm">
-            <h3>Name</h3>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <h3>Email</h3>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <h3>Phone Number</h3>
-            <input
-              type="text"
-              value={phoneNo}
-              onChange={(e) => setPhoneNo(e.target.value)}
-            />
-          </form>
-          <p style={{ color: "red" }}>Note: All input fields are mandatory</p>
-          <br />
+          <div className="form-container">
+            <form action="" className="personalinfoForm">
+              <h3 className="inputh3">Name</h3>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <h3 className="inputh3">Email</h3>
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <h3 className="inputh3">Phone Number</h3>
+              <input
+                type="text"
+                value={phoneNo}
+                onChange={(e) => setPhoneNo(e.target.value)}
+              />
+            </form>
+            <p style={{ color: "red", marginTop: "20px" }}>
+              Note: All input fields are mandatory
+            </p>
+            <br />
+          </div>
           <div className="eventinfo">
             <p>
               <b style={{ fontWeight: "400", color: "#846330" }}>Event Type:</b>{" "}
@@ -239,7 +243,6 @@ const Checkout = ({ onBack }) => {
               </b>{" "}
               {eventData.days}
             </p>
-
             {eventData.days === "Single-Day" && (
               <>
                 <p>
@@ -254,7 +257,6 @@ const Checkout = ({ onBack }) => {
                 </p>
               </>
             )}
-
             {eventData.days !== "Single-Day" && (
               <>
                 <p>
@@ -271,7 +273,6 @@ const Checkout = ({ onBack }) => {
                 </p>
               </>
             )}
-
             <p>
               <b style={{ fontWeight: "400", color: "#846330" }}>
                 Estimated Guests:
@@ -279,8 +280,6 @@ const Checkout = ({ onBack }) => {
               {eventData.estimatedGuests}
             </p>
             <br />
-          </div>
-          <div className="eventmanagement">
             <p>
               <b style={{ fontWeight: "400", color: "#846330" }}>
                 Selected Hall:
@@ -318,6 +317,7 @@ const Checkout = ({ onBack }) => {
               Book
             </button>
           </div>
+          {/* <div className="eventmanagement"></div> */}
         </div>
       </div>
 

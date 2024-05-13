@@ -10,10 +10,21 @@ const HallHomePage = () => {
 
   return (
     <section className="HallImages-Wrapper">
+      <h1
+        style={{
+          fontWeight: "600",
+          fontSize: "40px",
+          color: "#846330",
+          marginBottom: "10px",
+        }}
+      >
+        Our Halls
+      </h1>
       <div className="first">
         <h1
+          className="hallName"
           style={{
-            textDecoration: selectedHall === "Kathmandu" ? "underline" : "",
+            color: selectedHall === "Kathmandu" ? "#846330" : "",
             cursor: "pointer",
           }}
           onClick={() => setSelectedHall("Kathmandu")}
@@ -21,8 +32,9 @@ const HallHomePage = () => {
           Hall Kathmandu
         </h1>
         <h1
+          className="hallName"
           style={{
-            textDecoration: selectedHall === "Bhaktapur" ? "underline" : "",
+            color: selectedHall === "Bhaktapur" ? "#846330" : "",
             cursor: "pointer",
           }}
           onClick={() => setSelectedHall("Bhaktapur")}
@@ -31,8 +43,9 @@ const HallHomePage = () => {
         </h1>
 
         <h1
+          className="hallName"
           style={{
-            textDecoration: selectedHall === "Patan" ? "underline" : "",
+            color: selectedHall === "Patan" ? "#846330" : "",
             cursor: "pointer",
           }}
           onClick={() => setSelectedHall("Patan")}
@@ -41,8 +54,9 @@ const HallHomePage = () => {
         </h1>
 
         <h1
+          className="hallName"
           style={{
-            textDecoration: selectedHall === "Kritipur" ? "underline" : "",
+            color: selectedHall === "Kritipur" ? "#846330" : "",
             cursor: "pointer",
           }}
           onClick={() => setSelectedHall("Kritipur")}

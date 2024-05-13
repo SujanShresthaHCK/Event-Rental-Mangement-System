@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      <CheckAvailability />
+      {/* <CheckAvailability /> */}
       <About />
       <Occasion />
       <HallHomePage />

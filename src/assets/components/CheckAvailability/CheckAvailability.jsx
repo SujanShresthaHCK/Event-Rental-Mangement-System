@@ -135,7 +135,7 @@ const CheckAvailability = () => {
     <section className="check-wrapper">
       <div className="check-container">
         <div className="left-container">
-          <div className="check-content">
+          {/* <div className="check-content">
             <h1>Want to Book a Venue?</h1>
             <span>
               Discovering the perfect venue for your special occasion has never
@@ -146,7 +146,7 @@ const CheckAvailability = () => {
               venue to suit every need and budget. Say goodbye to the stress of
               venue hunting and hello to seamless event planning!
             </span>
-          </div>
+          </div> */}
         </div>
         <div className="check-rightcontainer">
           <form>
