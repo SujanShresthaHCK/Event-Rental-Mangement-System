@@ -1,7 +1,30 @@
 import React, { useState } from "react";
 import "./Package.css";
 
-const Menu = ({ isOpen, packageType }) => {
+const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [actionType, setActionType] = useState(null);
+
+  const handleEditClick = () => {
+    setActionType('edit');
+    setShowPopup(true);
+  };
+
+  const handleRemoveClick = () => {
+    setActionType('remove');
+    setShowPopup(true);
+  };
+
+  const handleAddClick = () => {
+    setActionType('add');
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setActionType(null);
+  };
   // Define menu titles based on the packageType prop
   const menuTitles = [
     { type: "gold", title: "Gold Menu" },
@@ -48,6 +71,7 @@ const Menu = ({ isOpen, packageType }) => {
 
   return (
     <div className={`menu ${isOpen ? "open" : ""}`}>
+      
       {selectedCategory ? (
         // If a menu category is selected, show its food items
         <>
@@ -79,8 +103,16 @@ const Menu = ({ isOpen, packageType }) => {
           </ul>
         </>
       )}
+      {/* Edit, Remove, and Add buttons */}
+      <div className="action-buttons">
+        <button onClick={() => onEdit(packageType)}>Edit</button>
+        <button onClick={() => onRemove(packageType)}>Remove</button>
+        <button onClick={() => onAdd(packageType)}>Add</button>
+      </div>
     </div>
   );
 };
 
 export default Menu;
+
+

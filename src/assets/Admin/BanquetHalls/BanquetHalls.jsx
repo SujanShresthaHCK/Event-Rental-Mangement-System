@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
+import "./BanquetHalls.css";
 
 import "../../components/HallSelection/HallSelection.css";
 import HallKathmandu from "../../components/HallKathmandu/HallKathmandu";
@@ -8,12 +9,9 @@ import HallKathmandu from "../../components/HallKathmandu/HallKathmandu";
 const BanquetHalls = () => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  //   const [selectedHall, setSelectedHall] = useState("Hall Kathmandu");
   const [hallData, setHallData] = useState([]);
   const [showAllHalls, setShowAllHalls] = useState(false);
   const [showAllText, setShowAllText] = useState("Show All Halls");
-  let hallNameSelected;
-  let hallprice;
 
   const fetchHallData = async () => {
     try {
@@ -24,7 +22,6 @@ const BanquetHalls = () => {
 
       const halls = hallsResponse.data.data;
 
-      // Filter halls that are present in the database and have a name
       const hallsInDatabase = halls.filter((hall) => hall.name);
 
       const hallsWithBookings = await Promise.all(
@@ -60,17 +57,25 @@ const BanquetHalls = () => {
     }
   };
 
-  const getNumberOfDays = (startDate, endDate) => {
-    const oneDay = 24 * 60 * 60 * 1000;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const diffDays = Math.round(Math.abs((start - end) / oneDay)) + 1;
-    return diffDays;
-  };
-
   useEffect(() => {
     fetchHallData();
   }, []);
+
+  const handleEditHall = () => {
+    // Handle editing all halls here
+    console.log("Editing hall");
+  };
+
+  const handleRemoveHall = (hallName) => {
+    const updatedHallData = hallData.filter((hall) => hall.name !== hallName);
+    setHallData(updatedHallData);
+    // You may also want to send a request to your backend to remove the hall from the database
+  };
+
+  const handleAddHall = () => {
+    // Handle adding a new hall here
+    console.log("Adding a new hall");
+  };
 
   return (
     <div className="dashboard-body">
@@ -139,36 +144,28 @@ const BanquetHalls = () => {
                           );
                         })}
                   </p>
-                  <div className="buttons">
-                    {/* <button
-                    className="primarybtn"
-                    onClick={() => {
-                      hallNameSelected = hall.name;
-                      handleSaveBook();
-                      onSelectClick();
-                    }}
+                  <button
+                    className="removebtn"
+                    onClick={() => handleRemoveHall(hall.name)}
                   >
-                    Select
-                  </button> */}
-                    {/* <button
-                      className="secondarybtn"
-                      onClick={() => setSelectedHall(hall.name)}
-                    >
-                      View Hall
-                    </button> */}
-                  </div>
+                    Remove Hall
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
+        <div className="action-buttons">
+          <button className="primarybtn" onClick={handleEditHall}>
+            Edit Hall
+          </button>
+          <button className="secondarybtn" onClick={handleAddHall}>
+            Add Hall
+          </button>
+        </div>
         <div className="left-side">
           <div className="hall-kathmandu">
-            {/* {selectedHall === "Hall Kathmandu" && <HallKathmandu />} */}
-
-            {/* {selectedHall === "Hall Bhaktapur" && }
-          {selectedHall === "Hall Patan" && <HallPatan />}
-          {selectedHall === "Hall Kritipur" && <HallKritipur />} */}
+            {/* Render additional components or information here */}
           </div>
         </div>
       </div>
@@ -177,3 +174,4 @@ const BanquetHalls = () => {
 };
 
 export default BanquetHalls;
+

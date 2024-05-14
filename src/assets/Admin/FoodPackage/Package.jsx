@@ -15,7 +15,7 @@ const FoodPackages = () => {
 
   return (
     <div className="dashboard-body">
-      <h1>
+      <h1 classname="head">
         Food Packages
       </h1>
       <div className="container-food-packages112">

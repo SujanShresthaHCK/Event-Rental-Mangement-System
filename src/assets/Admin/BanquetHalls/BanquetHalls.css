@@ -1,0 +1,43 @@
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .primarybtn,
+  .secondarybtn {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .primarybtn {
+    background-color: #4CAF50;
+    color: rgb(180, 22, 22);
+    border: none;
+  }
+  
+  .secondarybtn {
+    background-color: #06cd3b;
+    color: rgb(66, 5, 5);
+    border: none;
+  }
+  
+  .primarybtn:hover,
+  .secondarybtn:hover {
+    opacity: 0.8;
+  }
+  .removebtn {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .removebtn:hover {
+    background-color: #45a049; /* Darker green */
+  }
