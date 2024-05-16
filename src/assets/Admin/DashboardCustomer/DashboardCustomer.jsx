@@ -11,6 +11,7 @@ const DashboardCustomer = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [unconfirmedData, setUnconfirmedData] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [activeTab, setActiveTab] = useState("newlyAdded"); // State to manage active tab
 
   useEffect(() => {
     fetchEventData();
@@ -45,7 +46,7 @@ const DashboardCustomer = () => {
       .then((response) => {
         setLoading(false);
         const dbData = response.data.data.filter(
-          (entry) => entry.confirmed && entry.checkedOut
+          (entry) => entry.confirmed && entry.checkedOut && !entry.delete
         );
         setAllData(dbData);
         enqueueSnackbar("Event data retrieved successfully", {
@@ -93,6 +94,26 @@ const DashboardCustomer = () => {
       });
   };
 
+  const handleDelete = (entryId) => {
+    axios
+      .put(`http://localhost:9000/books/${entryId}`, { delete: true })
+      .then((response) => {
+        setUnconfirmedData((prevData) =>
+          prevData.filter((entry) => entry._id !== entryId)
+        );
+        setAllData((prevData) =>
+          prevData.filter((entry) => entry._id !== entryId)
+        );
+        enqueueSnackbar("Event declined successfully", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        enqueueSnackbar("Error declining event", { variant: "error" });
+        console.log(error);
+      });
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -115,127 +136,159 @@ const DashboardCustomer = () => {
         >
           Customers
         </h1>
-        <div className="dashboard-contents">
-          <h2>Newly Added Events</h2>
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Contact Number</th>
-                  <th>Price</th>
-                  <th>Event Type</th>
-                  <th>Hall Name</th>
-                  <th>Estimated Guests</th>
-                  <th>Days</th>
-                  <th>Booked Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unconfirmedData.map((entry) => (
-                  <tr key={entry._id}>
-                    <td>{entry.name}</td>
-                    <td>{entry.phoneNo}</td>
-                    <td>Rs. {entry.price}</td>
-                    <td>{entry.eventType}</td>
-                    <td>{entry.hallName}</td>
-                    <td>{entry.estimatedGuests}</td>
-                    <td>{entry.days}</td>
-                    <td>
-                      {entry.days === "Single-Day"
-                        ? formatDate(entry.bookDate)
-                        : `${formatDate(entry.startDate)} to
-                          ${formatDate(entry.endDate)}`}
-                    </td>
-                    <td>
-                      <button
-                        className="acceptbtn"
-                        onClick={() => handleAccept(entry._id)}
-                      >
-                        ACCEPT
-                      </button>
-                      <button
-                        className="declinebtn"
-                        onClick={() => handleDecline(entry._id)}
-                      >
-                        DECLINE
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-        <div className="dbtables">
-          <div className="heading">
-            <h2>Customer Data</h2>
-            <button className="refreshbtn" onClick={() => fetchAllEventData()}>
-              <GrRefresh style={{ fontSize: "30px", fontWeight: "500" }} />
-            </button>
-          </div>
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Contact Number</th>
-                  <th>Price</th>
-                  <th>Event Type</th>
-                  <th>Hall Name</th>
-                  <th>Estimated Guests</th>
-                  <th>Days</th>
-                  <th>Booked Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allData.map((entry) => (
-                  <tr key={entry._id}>
-                    <td>{entry.name}</td>
-                    <td>{entry.phoneNo}</td>
-                    <td>Rs. {entry.price}</td>
-                    <td>{entry.eventType}</td>
-                    <td>{entry.hallName}</td>
-                    <td>{entry.estimatedGuests}</td>
-                    <td>{entry.days}</td>
-                    <td>
-                      {entry.days === "Single-Day"
-                        ? formatDate(entry.bookDate)
-                        : `${formatDate(entry.startDate)} to
-                          ${formatDate(entry.endDate)}`}
-                    </td>
-                    <td>
-                      <button className="addbtn">
-                        <IoIosAddCircle
-                          style={{
-                            fontSize: "30px",
-                            fontWeight: "500",
-                            color: "black",
-                          }}
-                        />
-                      </button>
-                      <button
-                        className="deletebtn"
-                        // onClick={() => handleDecline(entry._id)}
-                      >
-                        <MdDelete
-                          style={{
-                            fontSize: "30px",
-                            fontWeight: "500",
-                            color: "red",
-                          }}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="tabs">
+          <button
+            className={`tab ${
+              activeTab === "newlyAdded" ? "active" : ""
+            } linkbtn`}
+            onClick={() => setActiveTab("newlyAdded")}
+          >
+            Newly Added Events
+          </button>
+
+          <h1>|</h1>
+          <button
+            className={`tab ${
+              activeTab === "customerData" ? "active" : ""
+            } linkbtn`}
+            onClick={() => {
+              setActiveTab("customerData");
+              fetchAllEventData();
+            }}
+          >
+            Customer Data
+          </button>
         </div>
+        {activeTab === "newlyAdded" && (
+          <div className="dashboard-contents">
+            <div className="table-container">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Contact Number</th>
+                    <th>Price</th>
+                    <th>Event Type</th>
+                    <th>Hall Name</th>
+                    <th>Estimated Guests</th>
+                    <th>Days</th>
+                    <th>Booked Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {unconfirmedData.length === 0 ? (
+                    <tr>
+                      <td colSpan="9">No data to show</td>
+                    </tr>
+                  ) : (
+                    unconfirmedData.map((entry) => (
+                      <tr key={entry._id}>
+                        <td>{entry.name}</td>
+                        <td>{entry.phoneNo}</td>
+                        <td>Rs. {entry.price}</td>
+                        <td>{entry.eventType}</td>
+                        <td>{entry.hallName}</td>
+                        <td>{entry.estimatedGuests}</td>
+                        <td>{entry.days}</td>
+                        <td>
+                          {entry.days === "Single-Day"
+                            ? formatDate(entry.bookDate)
+                            : `${formatDate(entry.startDate)} to ${formatDate(
+                                entry.endDate
+                              )}`}
+                        </td>
+                        <td>
+                          <button
+                            className="acceptbtn"
+                            onClick={() => handleAccept(entry._id)}
+                          >
+                            ACCEPT
+                          </button>
+                          <button
+                            className="declinebtn"
+                            onClick={() => handleDecline(entry._id)}
+                          >
+                            DECLINE
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+        {activeTab === "customerData" && (
+          <div className="dbtables">
+            <div className="heading">
+              {/* <button className="refreshbtn">
+                <GrRefresh style={{ fontSize: "30px", fontWeight: "500" }} />
+              </button> */}
+            </div>
+            <div className="table-container">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Contact Number</th>
+                    <th>Price</th>
+                    <th>Event Type</th>
+                    <th>Hall Name</th>
+                    <th>Estimated Guests</th>
+                    <th>Days</th>
+                    <th>Booked Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allData.map((entry) => (
+                    <tr key={entry._id}>
+                      <td>{entry.name}</td>
+                      <td>{entry.phoneNo}</td>
+                      <td>Rs. {entry.price}</td>
+                      <td>{entry.eventType}</td>
+                      <td>{entry.hallName}</td>
+                      <td>{entry.estimatedGuests}</td>
+                      <td>{entry.days}</td>
+                      <td>
+                        {entry.days === "Single-Day"
+                          ? formatDate(entry.bookDate)
+                          : `${formatDate(entry.startDate)} to
+                          ${formatDate(entry.endDate)}`}
+                      </td>
+                      <td>
+                        <button className="addbtn">
+                          <IoIosAddCircle
+                            style={{
+                              fontSize: "30px",
+                              fontWeight: "500",
+                              color: "black",
+                            }}
+                          />
+                        </button>
+                        <button
+                          className="deletebtn"
+                          onClick={() => handleDelete(entry._id)}
+                        >
+                          <MdDelete
+                            style={{
+                              fontSize: "30px",
+                              fontWeight: "500",
+                              color: "red",
+                            }}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

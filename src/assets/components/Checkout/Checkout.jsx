@@ -84,7 +84,6 @@ const Checkout = ({ onBack }) => {
 
       const halls = hallsResponse.data.data;
 
-      // Filter halls that are present in the database and have a name
       const hallsInDatabase = halls.filter((hall) => hall.name);
 
       const hallsWithBookings = await Promise.all(

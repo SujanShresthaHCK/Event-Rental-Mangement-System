@@ -97,62 +97,8 @@ const DashboardBody = () => {
         Hamro Banquet Dashboard
       </h1>
       <p style={{ marginLeft: "40px" }}>Welcome Admin,</p>
-
-      <div className="dashboard-contents">
-        <h2>Newly Added Events</h2>
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Contact Number</th>
-                <th>Price</th>
-                <th>Event Type</th>
-                <th>Hall Name</th>
-                <th>Estimated Guests</th>
-                <th>Days</th>
-                <th>Booked Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unconfirmedData.map((entry) => (
-                <tr key={entry._id}>
-                  <td>{entry.name}</td>
-                  <td>{entry.phoneNo}</td>
-                  <td>Rs. {entry.price}</td>
-                  <td>{entry.eventType}</td>
-                  <td>{entry.hallName}</td>
-                  <td>{entry.estimatedGuests}</td>
-                  <td>{entry.days}</td>
-                  <td>
-                    {entry.days === "Single-Day"
-                      ? formatDate(entry.bookDate)
-                      : `${formatDate(entry.startDate)} to
-                          ${formatDate(entry.endDate)}`}
-                  </td>
-                  <td>
-                    <button
-                      className="acceptbtn"
-                      onClick={() => handleAccept(entry._id)}
-                    >
-                      ACCEPT
-                    </button>
-                    <button
-                      className="declinebtn"
-                      onClick={() => handleDecline(entry._id)}
-                    >
-                      DECLINE
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
       <div className="summary">
-        <h2
+        {/* <h2
           style={{
             fontWeight: "500",
             fontSize: "24px",
@@ -161,9 +107,9 @@ const DashboardBody = () => {
           }}
         >
           Summary
-        </h2>
+        </h2> */}
         <div className="summary-contents">
-          <div className="summaryboxes">
+          {/* <div className="summaryboxes">
             <div className="boxes">
               <div className="box-content">
                 <h1
@@ -191,7 +137,68 @@ const DashboardBody = () => {
                 <img src="./images/mountain.png" alt="" />
               </div>
             </div>
-          </div>
+          </div> */}
+        </div>
+      </div>
+
+      <div className="dashboard-contents">
+        <h2>Newly Added Events</h2>
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Contact Number</th>
+                <th>Price</th>
+                <th>Event Type</th>
+                <th>Hall Name</th>
+                <th>Estimated Guests</th>
+                <th>Days</th>
+                <th>Booked Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {unconfirmedData.length === 0 ? ( // Check if there is no data
+                <tr>
+                  <td colSpan="9">No data to show</td>
+                </tr>
+              ) : (
+                unconfirmedData.map((entry) => (
+                  <tr key={entry._id}>
+                    <td>{entry.name}</td>
+                    <td>{entry.phoneNo}</td>
+                    <td>Rs. {entry.price}</td>
+                    <td>{entry.eventType}</td>
+                    <td>{entry.hallName}</td>
+                    <td>{entry.estimatedGuests}</td>
+                    <td>{entry.days}</td>
+                    <td>
+                      {entry.days === "Single-Day"
+                        ? formatDate(entry.bookDate)
+                        : `${formatDate(entry.startDate)} to ${formatDate(
+                            entry.endDate
+                          )}`}
+                    </td>
+                    <td>
+                      <button
+                        className="acceptbtn"
+                        onClick={() => handleAccept(entry._id)}
+                      >
+                        ACCEPT
+                      </button>
+                      <button
+                        className="declinebtn"
+                        onClick={() => handleDecline(entry._id)}
+                      >
+                        DECLINE
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
