@@ -54,7 +54,7 @@ const CheckAvailability = () => {
     // Fetch last data
     axios
       .get(
-        "http://44.212.209.252:9000/books?_sort=createdAt&_order=desc&_limit=1"
+        "http://44.216.3.166:9000/books?_sort=createdAt&_order=desc&_limit=1"
       )
       .then((response) => {
         setLoading(false);
@@ -74,7 +74,7 @@ const CheckAvailability = () => {
 
     // Fetch all data
     axios
-      .get("http://44.212.209.252:9000/books")
+      .get("http://44.216.3.166:9000/books")
       .then((response) => {
         setLoading(false);
         const allData = response.data;
@@ -118,7 +118,7 @@ const CheckAvailability = () => {
       };
       setLoading(true);
       axios
-        .post("http://44.212.209.252:9000/books", data)
+        .post("http://44.216.3.166:9000/books", data)
         .then(() => {
           fetchEventData();
           setLoading(false);
