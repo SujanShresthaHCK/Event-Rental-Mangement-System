@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./Package.css";
+import "./Package.css";  // Import the CSS file
 
 const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
-
   const [showPopup, setShowPopup] = useState(false);
   const [actionType, setActionType] = useState(null);
+  const [foodItem, setFoodItem] = useState({ category: "", name: "" });
 
   const handleEditClick = () => {
     setActionType('edit');
@@ -24,7 +24,25 @@ const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
   const handleClosePopup = () => {
     setShowPopup(false);
     setActionType(null);
+    setFoodItem({ category: "", name: "" });
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFoodItem({ ...foodItem, [name]: value });
+  };
+
+  const handlePopupSubmit = () => {
+    if (actionType === 'add') {
+      onAdd(packageType, foodItem);
+    } else if (actionType === 'edit') {
+      onEdit(packageType, foodItem);
+    } else if (actionType === 'remove') {
+      onRemove(packageType, foodItem.name);
+    }
+    handleClosePopup();
+  };
+
   // Define menu titles based on the packageType prop
   const menuTitles = [
     { type: "gold", title: "Gold Menu" },
@@ -71,7 +89,6 @@ const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
 
   return (
     <div className={`menu ${isOpen ? "open" : ""}`}>
-      
       {selectedCategory ? (
         // If a menu category is selected, show its food items
         <>
@@ -95,7 +112,7 @@ const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
             )
           ))}
           <ul>
-          {menuItems[packageType] && Object.keys(menuItems[packageType]).map((category, index) => (
+            {menuItems[packageType] && Object.keys(menuItems[packageType]).map((category, index) => (
               <li key={index} onClick={() => handleCategoryClick(category)}>
                 {`${index + 1}. ${category}`}
               </li>
@@ -105,14 +122,64 @@ const Menu = ({ isOpen, packageType, onEdit, onRemove, onAdd }) => {
       )}
       {/* Edit, Remove, and Add buttons */}
       <div className="action-buttons">
-        <button onClick={() => onEdit(packageType)}>Edit</button>
-        <button onClick={() => onRemove(packageType)}>Remove</button>
-        <button onClick={() => onAdd(packageType)}>Add</button>
+        <button onClick={handleEditClick}>Edit</button>
+        <button onClick={handleRemoveClick}>Remove</button>
+        <button onClick={handleAddClick}>Add</button>
       </div>
+
+      {/* Popup for Add/Edit/Remove */}
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close" onClick={handleClosePopup}>&times;</span>
+            <h2>{actionType === 'add' ? 'Add Food Item' : actionType === 'edit' ? 'Edit Food Item' : 'Remove Food Item'}</h2>
+            <form onSubmit={(e) => { e.preventDefault(); handlePopupSubmit(); }}>
+              {actionType !== 'remove' && (
+                <>
+                  <label>
+                    Category:
+                    <input
+                      type="text"
+                      name="category"
+                      value={foodItem.category}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Food Item:
+                    <input
+                      type="text"
+                      name="name"
+                      value={foodItem.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                </>
+              )}
+              {actionType === 'remove' && (
+                <label>
+                  Food Item:
+                  <input
+                    type="text"
+                    name="name"
+                    value={foodItem.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+              )}
+              <button type="submit">{actionType === 'add' ? 'Add' : actionType === 'edit' ? 'Edit' : 'Remove'}</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Menu;
+
 
 

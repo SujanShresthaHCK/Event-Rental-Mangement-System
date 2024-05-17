@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import "./BanquetHalls.css";
-
-import "../../components/HallSelection/HallSelection.css";
-import HallKathmandu from "../../components/HallKathmandu/HallKathmandu";
+import Modal from "./Modal";
 
 const BanquetHalls = () => {
   const [loading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const [hallData, setHallData] = useState([]);
-  const [showAllHalls, setShowAllHalls] = useState(false);
-  const [showAllText, setShowAllText] = useState("Show All Halls");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   const fetchHallData = async () => {
     try {
@@ -19,33 +18,8 @@ const BanquetHalls = () => {
       const hallsResponse = await axios.get(
         "http://localhost:9000/halls?_sort=createdAt&_order=desc"
       );
-
       const halls = hallsResponse.data.data;
-
-      const hallsInDatabase = halls.filter((hall) => hall.name);
-
-      const hallsWithBookings = await Promise.all(
-        hallsInDatabase.map(async (hall) => {
-          try {
-            console.log("Fetching bookings for hall:", hall.name);
-            const bookingsResponse = await axios.get(
-              `http://localhost:9000/books?hallName=${hall.name}&eventStatus=false`
-            );
-            const bookings = bookingsResponse.data.data;
-            console.log("Bookings for hall:", hall.name, bookings);
-            return { ...hall, bookings };
-          } catch (error) {
-            console.error(
-              "Error fetching bookings for hall:",
-              hall.name,
-              error
-            );
-            return hall;
-          }
-        })
-      );
-
-      setHallData(hallsWithBookings);
+      setHallData(halls);
       setLoading(false);
       enqueueSnackbar("Hall data retrieved successfully", {
         variant: "success",
@@ -61,117 +35,65 @@ const BanquetHalls = () => {
     fetchHallData();
   }, []);
 
-  const handleEditHall = () => {
-    // Handle editing all halls here
-    console.log("Editing hall");
+  const handleAddHall = (formData) => {
+    // Handle adding a new hall here (e.g., make POST request to backend)
+    console.log("Adding a new hall:", formData);
+    // Close the modal after adding
+    setShowAddModal(false);
   };
 
-  const handleRemoveHall = (hallName) => {
-    const updatedHallData = hallData.filter((hall) => hall.name !== hallName);
-    setHallData(updatedHallData);
-    // You may also want to send a request to your backend to remove the hall from the database
-  };
-
-  const handleAddHall = () => {
-    // Handle adding a new hall here
-    console.log("Adding a new hall");
+  const handleEditHall = (formData) => {
+    // Handle editing the hall here (e.g., make PUT request to backend)
+    console.log("Editing hall:", formData);
+    // Close the modal after editing
+    setShowEditModal(false);
   };
 
   return (
     <div className="dashboard-body">
-      <h1
-        style={{
-          color: "#846330",
-          marginLeft: "40px",
-          paddingTop: "20px",
-          fontWeight: "600",
-          fontSize: "25px",
-        }}
-      >
-        Banquet Halls
-      </h1>
+      <h1 className="dashboard-heading">Banquet Halls</h1>
       <div className="container-halls">
-        <div className="hall-container" style={{ marginTop: "40px" }}>
-          {hallData.map((hall, index) => {
-            return (
-              <div
-                key={index}
-                className={`halls hall-${hall.name
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-              >
-                <img
-                  src={`/images/${hall.name}.jpg`}
-                  alt={hall.name}
-                  className="hallimg"
-                />
-                <div className="hallDes">
-                  <h1>{hall.name}</h1>
-                  <p>
-                    Capacity: {hall.minCapacity} - {hall.maxCapacity}
-                    <br />
-                    Price per Shift: {hall.priceShift}
-                    <br />
-                    Price per Day: {hall.priceDay}
-                    <br />
-                    {hall.bookings &&
-                      hall.bookings
-                        .filter(
-                          (booking) =>
-                            booking.hallName === hall.name &&
-                            !booking.eventStatus
-                        )
-                        .map((booking, idx) => {
-                          return (
-                            <span key={idx} style={{ color: "red" }}>
-                              Hall will be unavailable for the date:{" "}
-                              {booking.days === "Single-Day" ? (
-                                new Date(booking.bookDate).toLocaleDateString()
-                              ) : (
-                                <>
-                                  <br />
-                                  {new Date(
-                                    booking.startDate
-                                  ).toLocaleDateString()}{" "}
-                                  to{" "}
-                                  {new Date(
-                                    booking.endDate
-                                  ).toLocaleDateString()}
-                                </>
-                              )}
-                              <br />
-                            </span>
-                          );
-                        })}
-                  </p>
-                  <button
-                    className="removebtn"
-                    onClick={() => handleRemoveHall(hall.name)}
-                  >
-                    Remove Hall
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {hallData.map((hall, index) => (
+          <div key={index} className={`halls hall-${hall.name.toLowerCase().replace(/\s+/g, "-")}`}>
+            <img src={`/images/${hall.name}.jpg`} alt={hall.name} className="hallimg" />
+            <div className="hallDes">
+              <h1>{hall.name}</h1>
+              <p>
+                Capacity: {hall.minCapacity} - {hall.maxCapacity}
+                <br />
+                Price per Shift: {hall.priceShift}
+                <br />
+                Price per Day: {hall.priceDay}
+              </p>
+            </div>
+          </div>
+        ))}
         <div className="action-buttons">
-          <button className="primarybtn" onClick={handleEditHall}>
-            Edit Hall
-          </button>
-          <button className="secondarybtn" onClick={handleAddHall}>
+          <button className="primarybtn" onClick={() => setShowAddModal(true)}>
             Add Hall
           </button>
+          <button className="primarybtn" onClick={() => setShowEditModal(true)}>
+            Edit Hall
+          </button>
         </div>
-        <div className="left-side">
-          <div className="hall-kathmandu">
-            {/* Render additional components or information here */}
-          </div>
-        </div>
+        <Modal
+          title="Add Hall"
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onSubmit={handleAddHall}
+        />
+        <Modal
+          title="Edit Hall"
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          onSubmit={handleEditHall}
+          formData={editFormData}
+        />
       </div>
     </div>
   );
 };
 
 export default BanquetHalls;
+
 
