@@ -123,7 +123,7 @@ const DashboardCustomer = () => {
   };
 
   return (
-    <div className="dashboard-body">
+    <div className="dashboardbody">
       <div className="customer-content">
         <h1
           style={{
@@ -161,7 +161,7 @@ const DashboardCustomer = () => {
           </button>
         </div>
         {activeTab === "newlyAdded" && (
-          <div className="dashboard-contents">
+          <div className="dashboardcontents">
             <div className="table-container">
               <table className="table">
                 <thead>

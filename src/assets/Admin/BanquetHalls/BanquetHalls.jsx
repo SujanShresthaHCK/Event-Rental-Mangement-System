@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-
-import "../../components/HallSelection/HallSelection.css";
-import HallKathmandu from "../../components/HallKathmandu/HallKathmandu";
+import "./BanquetHalls.css";
+import { IoMdAddCircle } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
 
 const BanquetHalls = () => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  //   const [selectedHall, setSelectedHall] = useState("Hall Kathmandu");
   const [hallData, setHallData] = useState([]);
-  const [showAllHalls, setShowAllHalls] = useState(false);
-  const [showAllText, setShowAllText] = useState("Show All Halls");
-  let hallNameSelected;
-  let hallprice;
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
+  const [currentHall, setCurrentHall] = useState(null);
+  const [newHall, setNewHall] = useState({
+    name: "",
+    minCapacity: "",
+    maxCapacity: "",
+    priceShift: "",
+    priceDay: "",
+    image: null,
+  });
 
   const fetchHallData = async () => {
     try {
@@ -24,7 +32,6 @@ const BanquetHalls = () => {
 
       const halls = hallsResponse.data.data;
 
-      // Filter halls that are present in the database and have a name
       const hallsInDatabase = halls.filter((hall) => hall.name);
 
       const hallsWithBookings = await Promise.all(
@@ -60,17 +67,99 @@ const BanquetHalls = () => {
     }
   };
 
-  const getNumberOfDays = (startDate, endDate) => {
-    const oneDay = 24 * 60 * 60 * 1000;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const diffDays = Math.round(Math.abs((start - end) / oneDay)) + 1;
-    return diffDays;
-  };
-
   useEffect(() => {
     fetchHallData();
   }, []);
+
+  const handleShowPopup = () => {
+    setIsPopupVisible(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
+
+  const handleShowEditPopup = (hall) => {
+    setCurrentHall(hall);
+    setNewHall(hall); // Populate the form with the current hall data
+    setIsEditPopupVisible(true);
+  };
+
+  const handleCloseEditPopup = () => {
+    setIsEditPopupVisible(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewHall((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleDeleteHall = async (id) => {
+    try {
+      setLoading(true);
+      await axios.patch(`http://localhost:9000/halls/${id}`, { delete: true });
+      fetchHallData();
+      enqueueSnackbar("Hall deleted successfully", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("Error deleting hall", { variant: "error" });
+      console.error("Error deleting hall:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddHall = async () => {
+    const dbpostdata = {
+      name: newHall.name,
+      minCapacity: newHall.minCapacity,
+      maxCapacity: newHall.maxCapacity,
+      priceShift: newHall.priceShift,
+      priceDay: newHall.priceDay,
+    };
+
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:9000/halls", dbpostdata);
+      fetchHallData(); // Refresh the list of halls
+      setLoading(false);
+      enqueueSnackbar("Hall added successfully", { variant: "success" });
+      handleClosePopup(); // Close the popup
+    } catch (error) {
+      setLoading(false);
+      enqueueSnackbar("Error adding hall", { variant: "error" });
+      console.error("Error adding hall:", error);
+    }
+  };
+
+  const handleEditHall = async () => {
+    const dbpostData = {
+      name: newHall.name,
+      minCapacity: newHall.minCapacity,
+      maxCapacity: newHall.maxCapacity,
+      priceShift: newHall.priceShift,
+      priceDay: newHall.priceDay,
+      image: newHall.image,
+    };
+
+    try {
+      setLoading(true);
+      await axios.put(
+        `http://localhost:9000/halls/${currentHall._id}`,
+        dbpostData
+      );
+      fetchHallData(); // Refresh the list of halls
+      setLoading(false);
+      enqueueSnackbar("Hall updated successfully", { variant: "success" });
+      handleCloseEditPopup(); // Close the popup
+    } catch (error) {
+      setLoading(false);
+      enqueueSnackbar("Error updating hall", { variant: "error" });
+      console.error("Error updating hall:", error);
+    }
+  };
 
   return (
     <div className="dashboard-body">
@@ -85,8 +174,14 @@ const BanquetHalls = () => {
       >
         Banquet Halls
       </h1>
+      <button className="addHall" onClick={handleShowPopup}>
+        <IoMdAddCircle style={{ fontSize: "30px" }} />
+        <h2 style={{ marginLeft: "5px", fontSize: "16px", fontWeight: "500" }}>
+          Add Hall
+        </h2>
+      </button>
       <div className="container-halls">
-        <div className="hall-container" style={{ marginTop: "40px" }}>
+        <div className="hall-container" style={{ marginTop: "20px" }}>
           {hallData.map((hall, index) => {
             return (
               <div
@@ -108,70 +203,199 @@ const BanquetHalls = () => {
                     Price per Shift: {hall.priceShift}
                     <br />
                     Price per Day: {hall.priceDay}
-                    <br />
-                    {hall.bookings &&
-                      hall.bookings
-                        .filter(
-                          (booking) =>
-                            booking.hallName === hall.name &&
-                            !booking.eventStatus
-                        )
-                        .map((booking, idx) => {
-                          return (
-                            <span key={idx} style={{ color: "red" }}>
-                              Hall will be unavailable for the date:{" "}
-                              {booking.days === "Single-Day" ? (
-                                new Date(booking.bookDate).toLocaleDateString()
-                              ) : (
-                                <>
-                                  <br />
-                                  {new Date(
-                                    booking.startDate
-                                  ).toLocaleDateString()}{" "}
-                                  to{" "}
-                                  {new Date(
-                                    booking.endDate
-                                  ).toLocaleDateString()}
-                                </>
-                              )}
-                              <br />
-                            </span>
-                          );
-                        })}
                   </p>
                   <div className="buttons">
-                    {/* <button
-                    className="primarybtn"
-                    onClick={() => {
-                      hallNameSelected = hall.name;
-                      handleSaveBook();
-                      onSelectClick();
-                    }}
-                  >
-                    Select
-                  </button> */}
-                    {/* <button
-                      className="secondarybtn"
-                      onClick={() => setSelectedHall(hall.name)}
+                    <FaRegEdit
+                      style={{
+                        color: "black",
+                        fontSize: "25px",
+                        marginTop: "10px",
+                        marginRight: "10px",
+                      }}
+                      onClick={() => handleShowEditPopup(hall)}
+                    />
+                    <button
+                      className="halldeletebtn"
+                      onClick={() => handleDeleteHall(hall._id)}
                     >
-                      View Hall
-                    </button> */}
+                      <MdDelete
+                        style={{
+                          fontSize: "25px",
+                          // color: "red",
+                          marginTop: "10px",
+                        }}
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="left-side">
-          <div className="hall-kathmandu">
-            {/* {selectedHall === "Hall Kathmandu" && <HallKathmandu />} */}
-
-            {/* {selectedHall === "Hall Bhaktapur" && }
-          {selectedHall === "Hall Patan" && <HallPatan />}
-          {selectedHall === "Hall Kritipur" && <HallKritipur />} */}
+        <div className="left-side"></div>
+      </div>
+      {isPopupVisible && (
+        <div className="popup-halls">
+          <div className="overlay">
+            <div className="demo">
+              <div className="popup-title">
+                <h2
+                  style={{
+                    marginLeft: "50px",
+                    fontSize: "30px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Add Hall
+                </h2>
+                <button className="closebtn" onClick={handleClosePopup}>
+                  <IoClose style={{ fontSize: "30px" }} />
+                </button>
+              </div>
+              <div className="popup-inputs">
+                <h3>Hall Name</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="name"
+                  value={newHall.name}
+                  onChange={handleInputChange}
+                />
+                <div className="capacity-field">
+                  <h3>
+                    Min <br /> Capacity:
+                  </h3>
+                  <input
+                    type="text"
+                    className="capacity-inputs"
+                    name="minCapacity"
+                    value={newHall.minCapacity}
+                    onChange={handleInputChange}
+                  />
+                  <h3>
+                    Max <br /> Capacity:
+                  </h3>
+                  <input
+                    type="text"
+                    className="capacity-inputs"
+                    name="maxCapacity"
+                    value={newHall.maxCapacity}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <h3>Price Per Shift</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="priceShift"
+                  value={newHall.priceShift}
+                  onChange={handleInputChange}
+                  placeholder="in NRS"
+                />
+                <h3>Price Per Day</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="priceDay"
+                  value={newHall.priceDay}
+                  onChange={handleInputChange}
+                  placeholder="in NRS"
+                />
+                {/* <h3>
+                  {" "}
+                  <FaUpload />
+                  Upload Image
+                </h3>
+                <input
+                  type="file"
+                  className="inputs"
+                  onChange={handleImageChange}
+                />
+                <img width={100} height={100} src={imageBase64} alt="" /> */}
+              </div>
+              <button className="dataaddbtn" onClick={handleAddHall}>
+                Add Hall
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {isEditPopupVisible && (
+        <div className="popup-halls">
+          <div className="overlay">
+            <div className="demo">
+              <div className="popup-title">
+                <h2
+                  style={{
+                    marginLeft: "50px",
+                    fontSize: "30px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Edit Hall
+                </h2>
+                <button className="closebtn" onClick={handleCloseEditPopup}>
+                  <IoClose style={{ fontSize: "30px" }} />
+                </button>
+              </div>
+              <div className="popup-inputs">
+                <h3>Hall Name</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="name"
+                  value={newHall.name}
+                  onChange={handleInputChange}
+                />
+                <div className="capacity-field">
+                  <h3>
+                    Min <br /> Capacity:
+                  </h3>
+                  <input
+                    type="text"
+                    className="capacity-inputs"
+                    name="minCapacity"
+                    value={newHall.minCapacity}
+                    onChange={handleInputChange}
+                  />
+                  <h3>
+                    Max <br /> Capacity:
+                  </h3>
+                  <input
+                    type="text"
+                    className="capacity-inputs"
+                    name="maxCapacity"
+                    value={newHall.maxCapacity}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <h3>Price Per Shift</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="priceShift"
+                  value={newHall.priceShift}
+                  onChange={handleInputChange}
+                  placeholder="in NRS"
+                />
+                <h3>Price Per Day</h3>
+                <input
+                  type="text"
+                  className="inputs"
+                  name="priceDay"
+                  value={newHall.priceDay}
+                  onChange={handleInputChange}
+                  placeholder="in NRS"
+                />
+                {/* Image upload functionality can be added here */}
+              </div>
+              <button className="dataaddbtn" onClick={handleEditHall}>
+                Edit Hall
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
