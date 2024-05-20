@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Datepicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import "./CheckAvailability.css";
@@ -202,13 +202,14 @@ const CheckAvailability = () => {
                       <option value="Whole Day">Whole Day</option>
                     </select>
                   </div>
+
                   <div>
                     <div className="calendar-icondiv">
                       <h2 style={{ fontSize: "15px" }}>Select Date</h2>
                       <FaCalendarAlt className="calendar-icon" />
                     </div>
                     <div className="datepicker-content">
-                      <Datepicker
+                      <DatePicker
                         selected={singleDayDate}
                         value={bookDate}
                         onChange={(date) => {
@@ -216,6 +217,7 @@ const CheckAvailability = () => {
                           setBookDate(date);
                         }}
                         className="custom-datepicker"
+                        minDate={new Date()} // Prevent selection of past dates
                       />
                     </div>
                   </div>
@@ -226,7 +228,7 @@ const CheckAvailability = () => {
                 <div className="Mul-days">
                   <div>
                     <h2 style={{ fontSize: "15px" }}>Start Date</h2>
-                    <Datepicker
+                    <DatePicker
                       selected={startDate}
                       value={startDatedb}
                       onChange={(date) => {
@@ -234,11 +236,12 @@ const CheckAvailability = () => {
                         setStartDatedb(date);
                       }}
                       className="custom-datepicker small-datepicker"
+                      minDate={new Date()} // Prevent selection of past dates
                     />
                   </div>
                   <div>
                     <h2 style={{ fontSize: "15px" }}>End Date</h2>
-                    <Datepicker
+                    <DatePicker
                       selected={endDate}
                       value={endDatedb}
                       onChange={(date) => {
@@ -246,6 +249,7 @@ const CheckAvailability = () => {
                         setEndDatedb(date);
                       }}
                       className="custom-datepicker small-datepicker"
+                      minDate={startDate || new Date()} // Prevent selection of past dates and ensure end date is not before start date
                     />
                   </div>
                 </div>
@@ -276,7 +280,6 @@ const CheckAvailability = () => {
                   Note: All input fields should be entered.
                 </p>
               )}
-              {/* <Link to="/bookvenue"> */}
               <button
                 className="check-button"
                 onClick={handleSaveBook}
@@ -284,7 +287,6 @@ const CheckAvailability = () => {
               >
                 CHECK AVAILABILITY
               </button>
-              {/* </Link> */}
             </div>
           </form>
         </div>

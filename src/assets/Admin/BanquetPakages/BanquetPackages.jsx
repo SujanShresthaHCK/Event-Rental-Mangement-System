@@ -77,14 +77,14 @@ const BanquetPackage = ({ onBack, onBuffetSelectClick }) => {
         >
           Package Menu
         </h1>
-        <button className="addHall" style={{ marginBottom: "20px" }}>
+        {/* <button className="addHall" style={{ marginBottom: "20px" }}>
           <IoMdAddCircle style={{ fontSize: "30px" }} />
           <h2
             style={{ marginLeft: "5px", fontSize: "16px", fontWeight: "500" }}
           >
             Add Menu
           </h2>
-        </button>
+        </button> */}
         {/* <button
           onClick={onBack}
           className="backbtn"

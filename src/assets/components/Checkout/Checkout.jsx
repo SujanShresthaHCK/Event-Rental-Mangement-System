@@ -301,7 +301,7 @@ const Checkout = ({ onBack }) => {
                 >
                   Total:
                 </b>{" "}
-                Rs. {eventData.price}
+                Rs. {eventData.price?.toLocaleString() ?? "0"}
               </b>
             </p>
             <button
