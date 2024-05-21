@@ -6,19 +6,19 @@ import { BiSolidBuilding } from "react-icons/bi";
 import { LuMenuSquare } from "react-icons/lu";
 import { MdMeetingRoom } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import axios from "axios"; // Importing axios for HTTP requests
-import { useSnackbar } from "notistack"; // Importing notistack for notifications
-import { Link } from "react-router-dom"; // Importing Link for navigation
-import DashboardBody from "../DashBoardBody/DashboardBody"; // Importing DashboardBody component
-import DashboardCustomer from "../DashboardCustomer/DashboardCustomer"; // Importing DashboardCustomer component
-import BanquetHalls from "../BanquetHalls/BanquetHalls"; // Importing BanquetHalls component
-import BanquetPackages from "../BanquetPakages/BanquetPackages"; // Importing BanquetPackages component
+import axios from "axios";
+import { useSnackbar } from "notistack";
+import { Link } from "react-router-dom";
+import DashboardBody from "../DashBoardBody/DashboardBody";
+import DashboardCustomer from "../DashboardCustomer/DashboardCustomer";
+import BanquetHalls from "../BanquetHalls/BanquetHalls";
+import BanquetPackages from "../BanquetPakages/BanquetPackages";
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false); // State to handle loading status
-  const { enqueueSnackbar } = useSnackbar(); // Snackbar for showing notifications
-  const [unconfirmedData, setUnconfirmedData] = useState([]); // State to store unconfirmed event data
-  const [selectedDashboard, setselectedDashboard] = useState("DashboardBody"); // State to handle selected dashboard component
+  const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const [unconfirmedData, setUnconfirmedData] = useState([]);
+  const [selectedDashboard, setselectedDashboard] = useState("DashboardBody");
 
   useEffect(() => {
     fetchEventData(); // Fetch event data on component mount
@@ -91,6 +91,12 @@ const Dashboard = () => {
       });
   };
 
+  const handleLogout = () => {
+    setIsLogoutModalOpen(false);
+
+    navigate("/");
+  };
+
   return (
     <section className="dashboardPanel">
       <div className="panel-container">
@@ -124,7 +130,10 @@ const Dashboard = () => {
               <LuMenuSquare /> Package Menu
             </button>
             <br />
-            <button className="items">
+            <button
+              className="items"
+              onClick={() => setIsLogoutModalOpen(true)}
+            >
               <FiLogOut />
               Logout
             </button>
@@ -135,6 +144,23 @@ const Dashboard = () => {
         {selectedDashboard === "BanquetHalls" && <BanquetHalls />}
         {selectedDashboard === "BanquetPackage" && <BanquetPackages />}
       </div>
+
+      <Modal
+        isOpen={isLogoutModalOpen}
+        onRequestClose={() => setIsLogoutModalOpen(false)}
+        contentLabel="Logout Confirmation"
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+        <h2>Confirm Logout</h2>
+        <p>Are you sure you want to logout?</p>
+        <button onClick={handleLogout} className="yesbtn">
+          Yes
+        </button>
+        <button onClick={() => setIsLogoutModalOpen(false)} className="nobtn">
+          No
+        </button>
+      </Modal>
     </section>
   );
 };
