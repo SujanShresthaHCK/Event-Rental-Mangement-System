@@ -1,50 +1,52 @@
 import React, { useState, useEffect } from "react";
-import "./Dashboard.css";
-import { RiHomeFill } from "react-icons/ri";
+import "./Dashboard.css"; // Importing CSS for styling
+import { RiHomeFill } from "react-icons/ri"; // Importing icons for dashboard items
 import { MdPeopleAlt } from "react-icons/md";
 import { BiSolidBuilding } from "react-icons/bi";
 import { LuMenuSquare } from "react-icons/lu";
 import { MdMeetingRoom } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { Link } from "react-router-dom";
-import DashboardBody from "../DashBoardBody/DashboardBody";
-import DashboardCustomer from "../DashboardCustomer/DashboardCustomer";
-import BanquetHalls from "../BanquetHalls/BanquetHalls";
-import BanquetPackages from "../BanquetPakages/BanquetPackages";
+import axios from "axios"; // Importing axios for HTTP requests
+import { useSnackbar } from "notistack"; // Importing notistack for notifications
+import { Link } from "react-router-dom"; // Importing Link for navigation
+import DashboardBody from "../DashBoardBody/DashboardBody"; // Importing DashboardBody component
+import DashboardCustomer from "../DashboardCustomer/DashboardCustomer"; // Importing DashboardCustomer component
+import BanquetHalls from "../BanquetHalls/BanquetHalls"; // Importing BanquetHalls component
+import BanquetPackages from "../BanquetPakages/BanquetPackages"; // Importing BanquetPackages component
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
-  const [unconfirmedData, setUnconfirmedData] = useState([]);
-  const [selectedDashboard, setselectedDashboard] = useState("DashboardBody");
+  const [loading, setLoading] = useState(false); // State to handle loading status
+  const { enqueueSnackbar } = useSnackbar(); // Snackbar for showing notifications
+  const [unconfirmedData, setUnconfirmedData] = useState([]); // State to store unconfirmed event data
+  const [selectedDashboard, setselectedDashboard] = useState("DashboardBody"); // State to handle selected dashboard component
 
   useEffect(() => {
-    fetchEventData();
+    fetchEventData(); // Fetch event data on component mount
   }, []);
 
+  // Function to fetch event data from the server
   const fetchEventData = () => {
-    setLoading(true);
+    setLoading(true); // Set loading to true while fetching data
     axios
       .get("http://localhost:9000/books")
       .then((response) => {
-        setLoading(false);
+        setLoading(false); // Set loading to false after data is fetched
         const dbData = response.data.data.filter(
           (entry) => !entry.confirmed && entry.checkedOut
-        );
-        setUnconfirmedData(dbData);
+        ); // Filter unconfirmed and checked-out entries
+        setUnconfirmedData(dbData); // Set the unconfirmed data
         enqueueSnackbar("Event data retrieved successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        setLoading(false);
-        enqueueSnackbar("Error retrieving event data", { variant: "error" });
-        console.log(error);
+        setLoading(false); // Set loading to false in case of error
+        enqueueSnackbar("Error retrieving event data", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
+  // Function to format date into MM/DD/YYYY
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -53,37 +55,39 @@ const Dashboard = () => {
     return `${month}/${day}/${year}`;
   };
 
+  // Function to handle accepting an event
   const handleAccept = (entryId) => {
     axios
       .put(`http://localhost:9000/books/${entryId}`, { confirmed: true })
       .then((response) => {
         setUnconfirmedData((prevData) =>
           prevData.filter((entry) => entry._id !== entryId)
-        );
+        ); // Remove confirmed entry from unconfirmed data
         enqueueSnackbar("Event confirmed successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        enqueueSnackbar("Error confirming event", { variant: "error" });
-        console.log(error);
+        enqueueSnackbar("Error confirming event", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
+  // Function to handle declining an event
   const handleDecline = (entryId) => {
     axios
       .put(`http://localhost:9000/books/${entryId}`, { checkedOut: false })
       .then((response) => {
         setUnconfirmedData((prevData) =>
           prevData.filter((entry) => entry._id !== entryId)
-        );
+        ); // Remove declined entry from unconfirmed data
         enqueueSnackbar("Event declined successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        enqueueSnackbar("Error declining event", { variant: "error" });
-        console.log(error);
+        enqueueSnackbar("Error declining event", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
@@ -136,3 +140,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

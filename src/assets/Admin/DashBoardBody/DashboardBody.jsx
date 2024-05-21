@@ -1,46 +1,48 @@
-import "../DashBoard/Dashboard.css";
+import "../DashBoard/Dashboard.css"; // Importing CSS for styling
 import React, { useState, useEffect } from "react";
 
-import { RiHomeFill } from "react-icons/ri";
+import { RiHomeFill } from "react-icons/ri"; // Importing icons
 import { MdPeopleAlt } from "react-icons/md";
 import { BiSolidBuilding } from "react-icons/bi";
 import { LuMenuSquare } from "react-icons/lu";
 import { MdMeetingRoom } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { Link } from "react-router-dom";
+import axios from "axios"; // Importing axios for HTTP requests
+import { useSnackbar } from "notistack"; // Importing notistack for notifications
+import { Link } from "react-router-dom"; // Importing Link for navigation
 
 const DashboardBody = () => {
-  const [loading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
-  const [unconfirmedData, setUnconfirmedData] = useState([]);
+  const [loading, setLoading] = useState(false); // State to handle loading status
+  const { enqueueSnackbar } = useSnackbar(); // Snackbar for showing notifications
+  const [unconfirmedData, setUnconfirmedData] = useState([]); // State to store unconfirmed event data
 
   useEffect(() => {
-    fetchEventData();
+    fetchEventData(); // Fetch event data on component mount
   }, []);
 
+  // Function to fetch event data from the server
   const fetchEventData = () => {
-    setLoading(true);
+    setLoading(true); // Set loading to true while fetching data
     axios
       .get("http://localhost:9000/books")
       .then((response) => {
-        setLoading(false);
+        setLoading(false); // Set loading to false after data is fetched
         const dbData = response.data.data.filter(
           (entry) => !entry.confirmed && entry.checkedOut
-        );
-        setUnconfirmedData(dbData);
+        ); // Filter unconfirmed and checked-out entries
+        setUnconfirmedData(dbData); // Set the unconfirmed data
         enqueueSnackbar("Event data retrieved successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        setLoading(false);
-        enqueueSnackbar("Error retrieving event data", { variant: "error" });
-        console.log(error);
+        setLoading(false); // Set loading to false in case of error
+        enqueueSnackbar("Error retrieving event data", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
+  // Function to format date into MM/DD/YYYY
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -49,37 +51,39 @@ const DashboardBody = () => {
     return `${month}/${day}/${year}`;
   };
 
+  // Function to handle accepting an event
   const handleAccept = (entryId) => {
     axios
       .put(`http://localhost:9000/books/${entryId}`, { confirmed: true })
       .then((response) => {
         setUnconfirmedData((prevData) =>
           prevData.filter((entry) => entry._id !== entryId)
-        );
+        ); // Remove confirmed entry from unconfirmed data
         enqueueSnackbar("Event confirmed successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        enqueueSnackbar("Error confirming event", { variant: "error" });
-        console.log(error);
+        enqueueSnackbar("Error confirming event", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
+  // Function to handle declining an event
   const handleDecline = (entryId) => {
     axios
       .put(`http://localhost:9000/books/${entryId}`, { checkedOut: false })
       .then((response) => {
         setUnconfirmedData((prevData) =>
           prevData.filter((entry) => entry._id !== entryId)
-        );
+        ); // Remove declined entry from unconfirmed data
         enqueueSnackbar("Event declined successfully", {
           variant: "success",
-        });
+        }); // Show success notification
       })
       .catch((error) => {
-        enqueueSnackbar("Error declining event", { variant: "error" });
-        console.log(error);
+        enqueueSnackbar("Error declining event", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
@@ -98,46 +102,9 @@ const DashboardBody = () => {
       </h1>
       <p style={{ marginLeft: "40px" }}>Welcome Admin,</p>
       <div className="summary">
-        {/* <h2
-          style={{
-            fontWeight: "500",
-            fontSize: "24px",
-            marginLeft: "40px",
-            marginTop: "20px",
-          }}
-        >
-          Summary
-        </h2> */}
+        {/* Summary section for future use */}
         <div className="summary-contents">
-          {/* <div className="summaryboxes">
-            <div className="boxes">
-              <div className="box-content">
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "20px",
-                    paddingTop: "20px",
-                    fontWeight: "500",
-                  }}
-                >
-                  Events Pending
-                </h1>
-                <h1
-                  style={{
-                    fontSize: "100px",
-                    marginLeft: "20px",
-                    color: "white",
-                    fontWeight: "600",
-                  }}
-                >
-                  3
-                </h1>
-              </div>
-              <div className="box-content">
-                <img src="./images/mountain.png" alt="" />
-              </div>
-            </div>
-          </div> */}
+          {/* Summary contents can be added here */}
         </div>
       </div>
 
@@ -175,10 +142,10 @@ const DashboardBody = () => {
                     <td>{entry.days}</td>
                     <td>
                       {entry.days === "Single-Day"
-                        ? formatDate(entry.bookDate)
+                        ? formatDate(entry.bookDate) // Format single-day event date
                         : `${formatDate(entry.startDate)} to ${formatDate(
                             entry.endDate
-                          )}`}
+                          )}`} // Format multi-day event date
                     </td>
                     <td>
                       <button

@@ -10,35 +10,35 @@ import PlatinumPackage from "../../components/PlatinumPackage/PlatinumPackage";
 import AllMenuItems from "../../components/AllMenuItems/AllMenuItems";
 
 const BanquetPackage = ({ onBack, onBuffetSelectClick }) => {
-  const { enqueueSnackbar } = useSnackbar();
-  const [buffetData, setBuffetData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedHall, setSelectedHall] = useState("Gold Package");
+  const { enqueueSnackbar } = useSnackbar(); // Snackbar for showing notifications
+  const [buffetData, setBuffetData] = useState([]); // State to store buffet data
+  const [loading, setLoading] = useState(false); // State to handle loading status
+  const [selectedHall, setSelectedHall] = useState("Gold Package"); // State to track selected package
 
   useEffect(() => {
     const fetchBuffetData = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Set loading to true while fetching data
         const response = await axios.get("http://localhost:9000/packages");
-        setBuffetData(response.data.data);
-        setLoading(false);
+        setBuffetData(response.data.data); // Set the buffet data
+        setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
-        enqueueSnackbar("Error retrieving buffet data", { variant: "error" });
-        console.error("Error fetching buffet data:", error);
-        setLoading(false);
+        enqueueSnackbar("Error retrieving buffet data", { variant: "error" }); // Show error notification
+        console.error("Error fetching buffet data:", error); // Log the error
+        setLoading(false); // Set loading to false in case of error
       }
     };
-    fetchBuffetData();
+    fetchBuffetData(); // Fetch buffet data on component mount
   }, [enqueueSnackbar]);
 
+  // Function to handle saving the selected buffet package
   const handleSaveBook = (buffetType, buffetPrice) => {
     axios
       .get("http://localhost:9000/books?_sort=createdAt&_order=desc&_limit=1")
       .then((response) => {
         const latestData = response.data.data.pop();
         const latestId = latestData._id;
-        let fPrice =
-          latestData.price + buffetPrice * latestData.estimatedGuests;
+        let fPrice = latestData.price + buffetPrice * latestData.estimatedGuests; // Calculate final price
         axios
           .put(`http://localhost:9000/books/${latestId}`, {
             buffet: buffetType,
@@ -47,19 +47,19 @@ const BanquetPackage = ({ onBack, onBuffetSelectClick }) => {
           .then(() => {
             enqueueSnackbar("Buffet package selected successfully", {
               variant: "success",
-            });
-            onBuffetSelectClick();
+            }); // Show success notification
+            onBuffetSelectClick(); // Trigger callback on buffet selection
           })
           .catch((error) => {
             enqueueSnackbar("Error selecting buffet package", {
               variant: "error",
-            });
-            console.log(error);
+            }); // Show error notification
+            console.log(error); // Log the error
           });
       })
       .catch((error) => {
-        enqueueSnackbar("Error retrieving latest data", { variant: "error" });
-        console.log(error);
+        enqueueSnackbar("Error retrieving latest data", { variant: "error" }); // Show error notification
+        console.log(error); // Log the error
       });
   };
 
@@ -79,29 +79,27 @@ const BanquetPackage = ({ onBack, onBuffetSelectClick }) => {
         </h1>
         <button className="addHall" style={{ marginBottom: "20px" }}>
           <IoMdAddCircle style={{ fontSize: "30px" }} />
-          <h2
-            style={{ marginLeft: "5px", fontSize: "16px", fontWeight: "500" }}
-          >
+          <h2 style={{ marginLeft: "5px", fontSize: "16px", fontWeight: "500" }}>
             Add Menu
           </h2>
         </button>
+        {/* Uncomment the following button if back functionality is needed */}
         {/* <button
           onClick={onBack}
           className="backbtn"
           style={{ fontSize: "20px", paddingLeft: "60px" }}
-        ></button> */}
+        >
+          <IoMdArrowRoundBack />
+          Back
+        </button> */}
         <div className="buffet-container">
           <div className="buffetcontents">
             {loading ? (
-              <p>Loading buffet data...</p>
+              <p>Loading buffet data...</p> // Show loading message while data is being fetched
             ) : (
               <div className="buffetpackages">
                 {buffetData.map((buffet, index) => (
-                  <div
-                    key={index}
-                    className="buffetpackage"
-                    style={{ display: "flex" }}
-                  >
+                  <div key={index} className="buffetpackage" style={{ display: "flex" }}>
                     <img
                       src={`/images/${buffet.packageName}.jpg`}
                       alt=""
@@ -110,19 +108,17 @@ const BanquetPackage = ({ onBack, onBuffetSelectClick }) => {
                     <div className="buffet-des">
                       <h1>{buffet.packageName}</h1>
                       <p>Per Person Rs. {buffet.pricePerPlate}</p>
+                      {/* Uncomment the following line to show items */}
                       {/* <p>Items: {buffet.items}</p> */}
                       <div className="buttons">
-                        {/* <button
+                        <button
                           className="select"
                           onClick={() => {
-                            handleSaveBook(
-                              buffet.packageName,
-                              buffet.pricePerPlate
-                            );
+                            handleSaveBook(buffet.packageName, buffet.pricePerPlate);
                           }}
                         >
                           Select
-                        </button> */}
+                        </button>
                         <button
                           className="secondarybtn"
                           onClick={() => setSelectedHall(buffet.packageName)}
