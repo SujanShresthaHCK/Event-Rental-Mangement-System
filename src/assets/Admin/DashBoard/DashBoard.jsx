@@ -8,17 +8,20 @@ import { MdMeetingRoom } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DashboardBody from "../DashBoardBody/DashboardBody";
 import DashboardCustomer from "../DashboardCustomer/DashboardCustomer";
 import BanquetHalls from "../BanquetHalls/BanquetHalls";
 import BanquetPackages from "../BanquetPakages/BanquetPackages";
+import Modal from "react-modal"; // Import react-modal
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const [unconfirmedData, setUnconfirmedData] = useState([]);
   const [selectedDashboard, setselectedDashboard] = useState("DashboardBody");
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State for modal visibility
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   useEffect(() => {
     fetchEventData();
@@ -87,6 +90,12 @@ const Dashboard = () => {
       });
   };
 
+  const handleLogout = () => {
+    setIsLogoutModalOpen(false);
+
+    navigate("/");
+  };
+
   return (
     <section className="dashboardPanel">
       <div className="panel-container">
@@ -120,7 +129,10 @@ const Dashboard = () => {
               <LuMenuSquare /> Package Menu
             </button>
             <br />
-            <button className="items">
+            <button
+              className="items"
+              onClick={() => setIsLogoutModalOpen(true)}
+            >
               <FiLogOut />
               Logout
             </button>
@@ -131,6 +143,23 @@ const Dashboard = () => {
         {selectedDashboard === "BanquetHalls" && <BanquetHalls />}
         {selectedDashboard === "BanquetPackage" && <BanquetPackages />}
       </div>
+
+      <Modal
+        isOpen={isLogoutModalOpen}
+        onRequestClose={() => setIsLogoutModalOpen(false)}
+        contentLabel="Logout Confirmation"
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+        <h2>Confirm Logout</h2>
+        <p>Are you sure you want to logout?</p>
+        <button onClick={handleLogout} className="yesbtn">
+          Yes
+        </button>
+        <button onClick={() => setIsLogoutModalOpen(false)} className="nobtn">
+          No
+        </button>
+      </Modal>
     </section>
   );
 };
