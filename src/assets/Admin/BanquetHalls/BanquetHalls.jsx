@@ -81,7 +81,7 @@ const BanquetHalls = () => {
 
   const handleShowEditPopup = (hall) => {
     setCurrentHall(hall);
-    setNewHall(hall); // Populate the form with the current hall data
+    setNewHall(hall);
     setIsEditPopupVisible(true);
   };
 

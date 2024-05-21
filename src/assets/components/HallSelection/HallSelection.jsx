@@ -220,6 +220,7 @@ const HallSelection = ({ onSelectClick, onImageClick }) => {
                               booking.hallName === hall.name &&
                               !booking.eventStatus
                           )
+                          .slice(0, 3) // Only show up to 3 bookings
                           .map((booking, idx) => {
                             return (
                               <span key={idx} style={{ color: "red" }}>
